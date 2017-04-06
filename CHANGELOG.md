@@ -1,3 +1,13 @@
+# v0.1.5
+## 4/6/2017
+
+1. [](#improved)
+    * Remove hacky JS shit
+    * Add `g` as an alt short form of generate
+
+1. [](#bugfix)
+    * Fixed link error to pages query ([#3](https://github.com/barryanders/grav-plugin-blackhole/issues/1))
+
 # v0.1.4
 ## 11/12/2016
 
@@ -16,7 +26,7 @@
 
 1. [](#improved)
     * Function for curl
-    * Minor syntax improvements
+    * Minor syntax
 
 1. [](#bugfix)
     * Hotfix for homepage route

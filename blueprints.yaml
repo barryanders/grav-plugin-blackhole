@@ -1,10 +1,9 @@
 name: Blackhole
-version: 0.1.4
+version: 0.1.5
 description: Generates an html copy of your website
 icon: circle
 author:
-  name: Barry Anders
-  email: barry@anders.farm
+  name: Barry
 homepage: https://github.com/barryanders/grav-plugin-blackhole
 keywords: grav, plugin, static, site, generator
 bugs: https://github.com/barryanders/grav-plugin-blackhole/issues

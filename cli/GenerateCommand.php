@@ -18,7 +18,7 @@ class GenerateCommand extends ConsoleCommand
       'destination',
       InputArgument::OPTIONAL,
       'The destination of your static site'
-      )
+    )
     ->setHelp('The <info>gen</info> generates a static copy of the website.')
     ;
   }

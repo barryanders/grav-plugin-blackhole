@@ -12,13 +12,13 @@ class BlackholePlugin extends Plugin
   public static function getSubscribedEvents()
   {
     return [
-    'onPageInitialized' => ['onPageInitialized', 0],
-    'onOutputRendered' => ['onOutputRendered', 0]
+      'onPageInitialized' => ['onPageInitialized', 0],
+      'onOutputRendered' => ['onOutputRendered', 0]
     ];
   }
   public function onPageInitialized()
   {
-    // Get page routes
+    // get page routes
     if ($_GET['pages'] == 'all') {
       $grav_routes = $this->grav['pages']->routes();
       $routes = array();
@@ -31,7 +31,7 @@ class BlackholePlugin extends Plugin
   }
   public function onOutputRendered()
   {
-    // Push routes to /grav/*/?pages=all
+    // Push routes to ?pages=all
     if ($_GET['pages'] == 'all') {
       echo "<script>document.querySelector('html').innerHTML = `".$this->content."`;</script>";
     }

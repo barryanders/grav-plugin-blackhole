@@ -11,6 +11,7 @@ class GenerateCommand extends ConsoleCommand
   protected function configure()
   {
     $this
+    ->setName("g")
     ->setName("gen")
     ->setName("generate")
     ->setDescription("Generates static site")

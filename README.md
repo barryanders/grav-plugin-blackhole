@@ -28,10 +28,9 @@ You should now have all the plugin files under
 To generate your static site you simply need to run one of the following commands:
 
 ```
-bin/plugin blackhole generate
 bin/plugin blackhole generate BUILD_DIRECTORY
-bin/plugin blackhole gen
 bin/plugin blackhole gen BUILD_DIRECTORY
+bin/plugin blackhole g BUILD_DIRECTORY
 ```
 
 ## Author

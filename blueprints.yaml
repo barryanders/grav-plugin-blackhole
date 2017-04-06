@@ -1,5 +1,5 @@
 name: Blackhole
-version: 0.1.6
+version: 0.1.7
 description: Generates an html copy of your website
 icon: circle
 author:
@@ -26,7 +26,5 @@ form:
 
     destination:
       type: text
-      label: Destination (Currently Disabled)
+      label: Destination
       help: Set the output directory.
-      default: /
-      placeholder: /

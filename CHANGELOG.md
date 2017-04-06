@@ -1,3 +1,9 @@
+# v0.1.7
+## 4/6/2017
+
+1. [](#new)
+    * Destination can be set in the admin plugin
+
 # v0.1.6
 ## 4/6/2017
 

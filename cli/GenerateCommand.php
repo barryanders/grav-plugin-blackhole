@@ -38,11 +38,14 @@ class GenerateCommand extends ConsoleCommand
     }
     // Set build dir
     $event_horizon;
+    $destination = pull('/?pages=all&destination=true');
     $this->options = [
       'destination' => $this->input->getArgument('destination')
     ];
     if ($this->options['destination']) {
       $event_horizon = GRAV_ROOT . '/' . $this->options['destination'];
+    } elseif ($destination) {
+      $event_horizon = GRAV_ROOT . '/' . $destination;
     } else {
       $event_horizon = GRAV_ROOT . '/_site';
     }

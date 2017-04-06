@@ -21,6 +21,7 @@ class BlackholePlugin extends Plugin
     // get page routes
     if ($_GET['pages'] == 'all') {
       ob_start();
+      $destination = $this->config->get('plugins.blackhole.destination');
       $grav_routes = $this->grav['pages']->routes();
       $routes = array();
       // add root first, otherwise it will be last
@@ -31,7 +32,11 @@ class BlackholePlugin extends Plugin
           $routes[] = $route;
         }
       }
-      $this->content = json_encode($routes, JSON_UNESCAPED_SLASHES);
+      if ($_GET['destination'] == 'true') {
+        $this->content = $destination;
+      } else {
+        $this->content = json_encode($routes, JSON_UNESCAPED_SLASHES);
+      }
     }
   }
   public function onOutputRendered()

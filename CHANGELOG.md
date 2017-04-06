@@ -1,3 +1,9 @@
+# v0.1.6
+## 4/6/2017
+
+1. [](#bugfix)
+    * Hotfix for writing content to the wrong place
+
 # v0.1.5
 ## 4/6/2017
 

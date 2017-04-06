@@ -55,7 +55,7 @@ class GenerateCommand extends ConsoleCommand
       $page_dir = $event_horizon . $page;
       $this->output->writeln('<green>GENERATING</green> ' . $page_dir);
       if (!is_dir($page_dir)) { mkdir($page_dir, 0755, true); }
-      file_put_contents('/index.html', pull($page));
+      file_put_contents($page_dir . '/index.html', pull($page));
     }
   }
 }

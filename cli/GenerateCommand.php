@@ -47,22 +47,15 @@ class GenerateCommand extends ConsoleCommand
       $event_horizon = GRAV_ROOT . '/_site';
     }
     // Make build dir
-    if (!is_dir(dirname($event_horizon))) {
-      mkdir(dirname($event_horizon), 0755, true);
-    }
+    if (!is_dir(dirname($event_horizon))) { mkdir(dirname($event_horizon), 0755, true); }
     // Get page routes
-    $pull_routes = pull('/routes/?grav=pages');
-    preg_match("/`\[(.*?)\]`/", $pull_routes, $json);
-    $pages = json_decode('[' . $json[1] . ']', true);
+    $pages = json_decode(pull('/?pages=all'));
     // Make pages in build dir
     foreach ($pages as $page) {
-      $page_dir = $event_horizon . $page['route'];
+      $page_dir = $event_horizon . $page;
       $this->output->writeln('<green>GENERATING</green> ' . $page_dir);
       if (!is_dir($page_dir)) { mkdir($page_dir, 0755, true); }
-      $static_page = fopen($page_dir . '/index.html', "a");
-      $pull_page = pull($page['route']);
-      fwrite($static_page, $pull_page);
-      fclose($static_page);
+      file_put_contents('/index.html', pull($page));
     }
   }
 }

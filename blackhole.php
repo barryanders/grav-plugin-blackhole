@@ -21,7 +21,9 @@ class BlackholePlugin extends Plugin
     // get page routes
     if ($_GET['pages'] == 'all') {
       ob_start();
+      // get destination from admin plugin
       $destination = $this->config->get('plugins.blackhole.destination');
+      // get all routes from grav
       $grav_routes = $this->grav['pages']->routes();
       $routes = array();
       // add root first, otherwise it will be last

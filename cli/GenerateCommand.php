@@ -26,8 +26,8 @@ class GenerateCommand extends ConsoleCommand
 
   protected function serve()
   {
+    // GRAV_HTTP converts GRAV_ROOT into an http link
     define(GRAV_HTTP, 'http:/'.str_replace($_SERVER['HOME'], '', GRAV_ROOT));
-
     function pull($url) {
       $pull = curl_init();
       curl_setopt($pull, CURLOPT_URL, GRAV_HTTP . $url);
@@ -38,29 +38,31 @@ class GenerateCommand extends ConsoleCommand
       return $emit;
     }
 
-    // Set build dir
-    $event_horizon;
+    // set build dir
+    $event_horizon = GRAV_ROOT . '/';
     $this->options = [ 'destination' => $this->input->getArgument('destination') ];
     if ($destination = $this->options['destination']) {
-      $event_horizon = GRAV_ROOT . '/' . $destination;
+      $event_horizon .= $destination;
     } elseif ($destination = pull('/?pages=all&destination=true')) {
-      $event_horizon = GRAV_ROOT . '/' . $destination;
-    } else {
-      $event_horizon = GRAV_ROOT . '/_site';
+      $event_horizon .= $destination;
     }
 
-    // Make build dir
+    // make build dir
     if (!is_dir(dirname($event_horizon))) { mkdir(dirname($event_horizon), 0755, true); }
 
-    // Get page routes
+    // get page routes
     $pages = json_decode(pull('/?pages=all'));
 
-    // Make pages in build dir
-    foreach ($pages as $page) {
-      $page_dir = $event_horizon . $page;
-      $this->output->writeln('<green>GENERATING</green> ' . $page_dir);
-      if (!is_dir($page_dir)) { mkdir($page_dir, 0755, true); }
-      file_put_contents($page_dir . '/index.html', pull($page));
+    // make pages in build dir
+    if ($pages) {
+      foreach ($pages as $page) {
+        $page_dir = $event_horizon . $page;
+        $this->output->writeln('<green>GENERATING</green> ' . $page_dir);
+        if (!is_dir($page_dir)) { mkdir($page_dir, 0755, true); }
+        file_put_contents($page_dir . '/index.html', pull($page));
+      }
+    } else {
+      $this->output->writeln('<red>ERROR</red> Blackhole failed to start. You must have at least one page!');
     }
   }
 }

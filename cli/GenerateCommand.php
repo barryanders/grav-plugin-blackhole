@@ -27,6 +27,7 @@ class GenerateCommand extends ConsoleCommand
   protected function serve()
   {
     define(GRAV_HTTP, 'http:/'.str_replace($_SERVER['HOME'], '', GRAV_ROOT));
+
     function pull($url) {
       $pull = curl_init();
       curl_setopt($pull, CURLOPT_URL, GRAV_HTTP . $url);
@@ -36,23 +37,24 @@ class GenerateCommand extends ConsoleCommand
       curl_close($pull);
       return $emit;
     }
+
     // Set build dir
     $event_horizon;
-    $destination = pull('/?pages=all&destination=true');
-    $this->options = [
-      'destination' => $this->input->getArgument('destination')
-    ];
-    if ($this->options['destination']) {
-      $event_horizon = GRAV_ROOT . '/' . $this->options['destination'];
-    } elseif ($destination) {
+    $this->options = [ 'destination' => $this->input->getArgument('destination') ];
+    if ($destination = $this->options['destination']) {
+      $event_horizon = GRAV_ROOT . '/' . $destination;
+    } elseif ($destination = pull('/?pages=all&destination=true')) {
       $event_horizon = GRAV_ROOT . '/' . $destination;
     } else {
       $event_horizon = GRAV_ROOT . '/_site';
     }
+
     // Make build dir
     if (!is_dir(dirname($event_horizon))) { mkdir(dirname($event_horizon), 0755, true); }
+
     // Get page routes
     $pages = json_decode(pull('/?pages=all'));
+
     // Make pages in build dir
     foreach ($pages as $page) {
       $page_dir = $event_horizon . $page;

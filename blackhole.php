@@ -34,7 +34,7 @@ class BlackholePlugin extends Plugin
           $routes[] = $route;
         }
       }
-      if ($_GET['destination'] == 'true') {
+      if ($_GET['destination']) {
         $this->content = $destination;
       } else {
         $this->content = json_encode($routes, JSON_UNESCAPED_SLASHES);

@@ -1,49 +1,56 @@
-# v0.1.7
+# v0.5.0
+## 4/7/2017
+
+1. [](#improved)
+    * Added error message
+    * Changed version history
+2. [](#bugfix)
+    * Domain must be defined ([#4](https://github.com/barryanders/grav-plugin-blackhole/issues/4))
+
+# v0.4.0
 ## 4/6/2017
 
 1. [](#new)
     * Destination can be set in the admin plugin
 
-# v0.1.6
+# v0.3.1
 ## 4/6/2017
 
 1. [](#bugfix)
     * Hotfix for writing content to the wrong place
 
-# v0.1.5
+# v0.3.0
 ## 4/6/2017
 
 1. [](#improved)
-    * Remove hacky JS shit
-    * Add `g` as an alt short form of generate
+    * Removed hacky JS shit
+    * Added `g` as an alt short form of generate
+2. [](#bugfix)
+    * Fixed link error to pages query ([#3](https://github.com/barryanders/grav-plugin-blackhole/issues/3))
 
-1. [](#bugfix)
-    * Fixed link error to pages query ([#3](https://github.com/barryanders/grav-plugin-blackhole/issues/1))
-
-# v0.1.4
+# v0.2.3
 ## 11/12/2016
 
 1. [](#bugfix)
     * Fixed directory path issue for unix style ([#1](https://github.com/barryanders/grav-plugin-blackhole/issues/1))
     * Fixed every page being generated as the home page ([#2](https://github.com/barryanders/grav-plugin-blackhole/issues/2))
 
-# v0.1.3
+# v0.2.2
 ##  10/07/2016
 
 1. [](#bugfix)
     * Hotfix for writing content to page
 
-# v0.1.2
+# v0.2.1
 ##  10/07/2016
 
 1. [](#improved)
     * Function for curl
     * Minor syntax
-
-1. [](#bugfix)
+2. [](#bugfix)
     * Hotfix for homepage route
 
-# v0.1.1
+# v0.2.0
 ##  10/07/2016
 
 1. [](#improved)
@@ -56,8 +63,4 @@
     * Use ?pages=all to bypass impossible call grav->['pages'] in CLI
     * Loop and curl to generate the pages
     * Named Blackhole to go with Grav
-
-##  10/05/2016
-
-1. [](#new)
     * ChangeLog, Blueprints, README

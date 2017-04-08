@@ -16,18 +16,24 @@ class GenerateCommand extends ConsoleCommand
     ->setName("generate")
     ->setDescription("Generates static site")
     ->addArgument(
+      'domain',
+      InputArgument::REQUIRED,
+      'Set the domain name'
+    )
+    ->addArgument(
       'destination',
       InputArgument::OPTIONAL,
-      'The destination of your static site'
+      'Set the output directory'
     )
-    ->setHelp('The <info>gen</info> generates a static copy of the website.')
     ;
   }
 
   protected function serve()
   {
     // GRAV_HTTP converts GRAV_ROOT into an http link
-    define(GRAV_HTTP, 'http:/'.str_replace($_SERVER['HOME'], '', GRAV_ROOT));
+    $this->options = [ 'domain' => $this->input->getArgument('domain') ];
+    $domain = $this->options['domain'];
+    define(GRAV_HTTP, 'http://' . $domain . str_replace(dirname(getcwd()), '', GRAV_ROOT));
     function pull($url) {
       $pull = curl_init();
       curl_setopt($pull, CURLOPT_URL, GRAV_HTTP . $url);
@@ -41,10 +47,10 @@ class GenerateCommand extends ConsoleCommand
     // set build dir
     $event_horizon = GRAV_ROOT . '/';
     $this->options = [ 'destination' => $this->input->getArgument('destination') ];
-    if ($destination = $this->options['destination']) {
-      $event_horizon .= $destination;
-    } elseif ($destination = pull('/?pages=all&destination=true')) {
-      $event_horizon .= $destination;
+    if ($this->options['destination']) {
+      $event_horizon .= $this->options['destination'];
+    } elseif (pull('/?pages=all&destination=true')) {
+      $event_horizon .= pull('/?pages=all&destination=true');
     }
 
     // make build dir
@@ -62,7 +68,7 @@ class GenerateCommand extends ConsoleCommand
         file_put_contents($page_dir . '/index.html', pull($page));
       }
     } else {
-      $this->output->writeln('<red>ERROR</red> Blackhole failed to start. You must have at least one page!');
+      $this->output->writeln('<red>ERROR</red> Blackhole failed to start.');
     }
   }
 }

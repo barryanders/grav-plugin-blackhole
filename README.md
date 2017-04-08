@@ -21,12 +21,14 @@ If you can't use GPM you can manually install this plugin. Download the zip vers
 
 ## Usage
 
-To generate your static site, run one of the following commands. The build directory is relative to the Grav root url.
+To generate your static site, run the following command.
+
+- `generate` can also be written as `gen` or `g`.
+- Replace `website.com` with your domain name.
+- Optional: replace `static` with your desired output directory, which is relative to the Grav root directory. Alternatively, set the path from within the admin plugin or do nothing to generate in the Grav root directory.
 
 ```bash
-bin/plugin blackhole generate BUILD_DIRECTORY
-bin/plugin blackhole gen BUILD_DIRECTORY
-bin/plugin blackhole g BUILD_DIRECTORY
+bin/plugin blackhole generate website.com static
 ```
 
 ## Author

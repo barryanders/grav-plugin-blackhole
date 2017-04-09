@@ -17,14 +17,14 @@ class GenerateCommand extends ConsoleCommand
     ->setName("generate")
     ->setDescription("Generates static site")
     ->addArgument(
-      'domain',
+      'website',
       InputArgument::REQUIRED,
-      'Set the domain name'
+      'Set the URL to your Grav website.'
     )
     ->addArgument(
       'destination',
       InputArgument::OPTIONAL,
-      'Set the output directory'
+      'Set the output directory for your static website.'
     );
   }
 
@@ -42,8 +42,8 @@ class GenerateCommand extends ConsoleCommand
     }
 
     // get options
-    $this->options = [ 'domain' => $this->input->getArgument('domain') ];
-    $domain = $this->options['domain'];
+    $this->options = [ 'website' => $this->input->getArgument('website') ];
+    $website = $this->options['website'];
 
     $this->options = [ 'destination' => $this->input->getArgument('destination') ];
     $destination = $this->options['destination'];
@@ -52,26 +52,28 @@ class GenerateCommand extends ConsoleCommand
     $event_horizon = GRAV_ROOT . '/';
     if ($destination) {
       $event_horizon .= $destination;
-    } elseif (pull($domain . '/?pages=all&destination=true')) {
-      $event_horizon .= pull($domain . '/?pages=all&destination=true');
+    } elseif (pull($website . '/?pages=all&destination=true')) {
+      $event_horizon .= pull($website . '/?pages=all&destination=true');
     }
 
     // make output dir
     if (!is_dir(dirname($event_horizon))) { mkdir(dirname($event_horizon), 0755, true); }
 
     // get page routes
-    $pages = json_decode(pull($domain . '/?pages=all'));
+    $pages = json_decode(pull($website . '/?pages=all'));
 
     // make pages in output dir
-    if ($pages) {
+    if (count($pages)) {
       foreach ($pages as $page) {
         $page_dir = preg_replace( '/\/\/+/', '/', $event_horizon . $page);
         $this->output->writeln('<green>GENERATING</green> ' . $page_dir);
         if (!is_dir($page_dir)) { mkdir($page_dir, 0755, true); }
-        file_put_contents($page_dir . '/index.html', pull($domain . $page));
+        file_put_contents($page_dir . '/index.html', pull($website . $page));
       }
     } else {
       $this->output->writeln('<red>ERROR</red> Blackhole failed to start.');
+      $this->output->writeln('<red>ERROR</red> The website must match the location of your Grav installation.');
+      $this->output->writeln('<red>ERROR</red> You must have at least one page.');
     }
   }
 }

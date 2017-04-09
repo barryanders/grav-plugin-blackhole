@@ -27,4 +27,4 @@ form:
     destination:
       type: text
       label: Destination
-      help: Set the output directory.
+      help: Set the output directory for your static website.

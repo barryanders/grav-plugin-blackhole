@@ -16,6 +16,7 @@ class BlackholePlugin extends Plugin
       'onOutputRendered' => ['onOutputRendered', 0]
     ];
   }
+
   public function onPageInitialized()
   {
     // get page routes
@@ -41,6 +42,7 @@ class BlackholePlugin extends Plugin
       }
     }
   }
+
   public function onOutputRendered()
   {
     // Push routes to ?pages=all

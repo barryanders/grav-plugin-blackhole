@@ -1,3 +1,9 @@
+# v0.5.1
+## 4/9/2017
+
+1. [](#bugfix)
+    * Improved the implementation of the domain option
+
 # v0.5.0
 ## 4/7/2017
 

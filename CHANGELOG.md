@@ -2,7 +2,7 @@
 ## 4/9/2017
 
 1. [](#bugfix)
-    * Improved the implementation of the domain option
+    * Improved the implementation of the website option
 
 # v0.5.0
 ## 4/7/2017
@@ -11,7 +11,7 @@
     * Added error message
     * Changed version history
 2. [](#bugfix)
-    * Domain must be defined ([#4](https://github.com/barryanders/grav-plugin-blackhole/issues/4))
+    * Website must be defined ([#4](https://github.com/barryanders/grav-plugin-blackhole/issues/4))
 
 # v0.4.0
 ## 4/6/2017

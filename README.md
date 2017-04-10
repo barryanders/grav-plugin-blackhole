@@ -10,7 +10,7 @@ Why Blackhole? Grav is a space term, so I think this plugin should follow suit. 
 
 ## Installation
 
-### GPM Installation (NOT SUPPORTED YET)
+### GPM Installation
 
 The simplest way to install this plugin is via the Grav Package Manager (GPM). From the root of your Grav install type:
 `bin/gpm install blackhole`

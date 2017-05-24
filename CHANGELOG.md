@@ -1,8 +1,8 @@
 # v0.5.1
 ## 4/9/2017
 
-1. [](#bugfix)
-    * Improved the implementation of the website option
+1. [](#improved)
+    * The website argument was reimplemented to consider all scenarios
 
 # v0.5.0
 ## 4/7/2017

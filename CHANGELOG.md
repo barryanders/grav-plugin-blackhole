@@ -1,3 +1,10 @@
+# v0.5.2
+## 6/1/2017
+
+1. [](#bugfix)
+    * Fixes [#7](https://github.com/barryanders/grav-plugin-blackhole/issues/7) and [#9](https://github.com/barryanders/grav-plugin-blackhole/issues/9)
+
+
 # v0.5.1
 ## 4/9/2017
 

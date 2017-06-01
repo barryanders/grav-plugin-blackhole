@@ -20,7 +20,7 @@ class BlackholePlugin extends Plugin
   public function onPageInitialized()
   {
     // get page routes
-    if ($_GET['pages'] == 'all') {
+    if (!empty($_GET['pages']) && $_GET['pages'] == 'all') {
       ob_start();
       // get destination from admin plugin
       $destination = $this->config->get('plugins.blackhole.destination');
@@ -35,7 +35,7 @@ class BlackholePlugin extends Plugin
           $routes[] = $route;
         }
       }
-      if ($_GET['destination']) {
+      if (!empty($_GET['destination'])) {
         $this->content = $destination;
       } else {
         $this->content = json_encode($routes, JSON_UNESCAPED_SLASHES);
@@ -46,7 +46,7 @@ class BlackholePlugin extends Plugin
   public function onOutputRendered()
   {
     // Push routes to ?pages=all
-    if ($_GET['pages'] == 'all') {
+    if (!empty($_GET['pages']) && $_GET['pages'] == 'all') {
       ob_end_clean();
       echo $this->content;
     }

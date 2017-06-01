@@ -1,13 +1,13 @@
 name: Blackhole
-version: 0.5.1
+version: 0.5.2
 description: Generates an html copy of your website
 icon: circle
 author:
-  name: Barry
+  name: Sohma
 homepage: https://github.com/barryanders/grav-plugin-blackhole
 keywords: grav, plugin, static, site, generator
-bugs: https://github.com/barryanders/grav-plugin-blackhole/issues
-docs: https://github.com/barryanders/grav-plugin-blackhole/blob/master/README.md
+bugs: https://github.com/itssohma/grav-plugin-blackhole/issues
+docs: https://github.com/itssohma/grav-plugin-blackhole/blob/master/README.md
 license: MIT
 
 form:

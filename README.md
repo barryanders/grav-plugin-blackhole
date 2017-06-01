@@ -34,6 +34,6 @@ bin/plugin blackhole generate https://website.com static
 
 ## Author
 
-| [![twitter/barryanders](https://avatars3.githubusercontent.com/u/5648875?v=2&s=70)](http://twitter.com/barryanders "Follow @barryanders on Twitter") |
+| ![Sohma](https://avatars3.githubusercontent.com/u/5648875?v=2&s=70) |
 |---|
-| [Barry Anders](https://barryanders.github.io/) |
+| [Sohma](http://sohma.net) |

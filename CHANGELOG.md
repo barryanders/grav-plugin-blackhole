@@ -1,24 +1,28 @@
-# v0.5.2
+# v0.6.0
+## 6/18/2017
+
+1. [](#new)
+    * Portal function solves [#10](https://github.com/itssohma/grav-plugin-blackhole/issues/10)
+
 ## 6/1/2017
 
 1. [](#bugfix)
-    * Fixes [#7](https://github.com/barryanders/grav-plugin-blackhole/issues/7) and [#9](https://github.com/barryanders/grav-plugin-blackhole/issues/9)
+    * Fixed [#7](https://github.com/itssohma/grav-plugin-blackhole/issues/7) and [#9](https://github.com/itssohma/grav-plugin-blackhole/issues/9)
 
-
-# v0.5.1
+# v0.5.0
 ## 4/9/2017
 
 1. [](#improved)
     * The website argument was reimplemented to consider all scenarios
 
-# v0.5.0
+# v0.4.1
 ## 4/7/2017
 
 1. [](#improved)
-    * Added error message
+    * Added error messages
     * Changed version history
 2. [](#bugfix)
-    * Website must be defined ([#4](https://github.com/barryanders/grav-plugin-blackhole/issues/4))
+    * Website must be defined ([#4](https://github.com/itssohma/grav-plugin-blackhole/issues/4))
 
 # v0.4.0
 ## 4/6/2017
@@ -39,14 +43,14 @@
     * Removed hacky JS shit
     * Added `g` as an alt short form of generate
 2. [](#bugfix)
-    * Fixed link error to pages query ([#3](https://github.com/barryanders/grav-plugin-blackhole/issues/3))
+    * Fixed link error to pages query ([#3](https://github.com/itssohma/grav-plugin-blackhole/issues/3))
 
 # v0.2.3
 ## 11/12/2016
 
 1. [](#bugfix)
-    * Fixed directory path issue for unix style ([#1](https://github.com/barryanders/grav-plugin-blackhole/issues/1))
-    * Fixed every page being generated as the home page ([#2](https://github.com/barryanders/grav-plugin-blackhole/issues/2))
+    * Fixed directory path issue for unix style ([#1](https://github.com/itssohma/grav-plugin-blackhole/issues/1))
+    * Fixed every page being generated as the home page ([#2](https://github.com/itssohma/grav-plugin-blackhole/issues/2))
 
 # v0.2.2
 ##  10/07/2016

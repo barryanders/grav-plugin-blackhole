@@ -5,25 +5,22 @@ use Grav\Common\Plugin;
 use Grav\Common\Grav;
 use Grav\Common\Page\Page;
 
-class BlackholePlugin extends Plugin
-{
+class BlackholePlugin extends Plugin {
   public $content;
 
-  public static function getSubscribedEvents()
-  {
+  public static function getSubscribedEvents() {
     return [
       'onPageInitialized' => ['onPageInitialized', 0],
       'onOutputRendered' => ['onOutputRendered', 0]
     ];
   }
 
-  public function onPageInitialized()
-  {
+  public function onPageInitialized() {
     // get page routes
     if (!empty($_GET['pages']) && $_GET['pages'] == 'all') {
       ob_start();
-      // get destination from admin plugin
-      $destination = $this->config->get('plugins.blackhole.destination');
+      // get output_path from plugin settings
+      $output_path = $this->config->get('plugins.blackhole.output-path');
       // get all routes from grav
       $grav_routes = $this->grav['pages']->routes();
       $routes = array();
@@ -35,16 +32,15 @@ class BlackholePlugin extends Plugin
           $routes[] = $route;
         }
       }
-      if (!empty($_GET['destination'])) {
-        $this->content = $destination;
+      if (!empty($_GET['output-path'])) {
+        $this->content = $output_path;
       } else {
         $this->content = json_encode($routes, JSON_UNESCAPED_SLASHES);
       }
     }
   }
 
-  public function onOutputRendered()
-  {
+  public function onOutputRendered() {
     // Push routes to ?pages=all
     if (!empty($_GET['pages']) && $_GET['pages'] == 'all') {
       ob_end_clean();

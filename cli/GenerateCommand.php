@@ -3,13 +3,12 @@ namespace Grav\Plugin\Console;
 
 use Grav\Console\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
-class GenerateCommand extends ConsoleCommand
-{
+class GenerateCommand extends ConsoleCommand {
   protected $options = [];
 
-  protected function configure()
-  {
+  protected function configure() {
     // `generate` command settings
     $this
     ->setName("g")
@@ -17,19 +16,36 @@ class GenerateCommand extends ConsoleCommand
     ->setName("generate")
     ->setDescription("Generates static site")
     ->addArgument(
-      'website',
+      'input-url',
       InputArgument::REQUIRED,
-      'Set the URL to your Grav website.'
+      'Set the URL of your live Grav site (ex. http://localhost/grav)'
     )
-    ->addArgument(
-      'destination',
-      InputArgument::OPTIONAL,
-      'Set the output directory for your static website.'
+    ->addOption(
+      'output-url',
+      'd',
+      InputOption::VALUE_REQUIRED,
+      'Set the URL of your static site. This determines the domain used in the absolute path of your links (ex. https://website.com)'
+    )
+    ->addOption(
+      'output-path',
+      'p',
+      InputOption::VALUE_REQUIRED,
+      'Set the directory to which your static site will be written. Relative to Grav root (ex. ../)'
     );
   }
 
-  protected function serve()
-  {
+  protected function serve() {
+
+    // get options
+    $this->options = [ 'input-url' => $this->input->getArgument('input-url') ];
+    $input_url = $this->options['input-url'];
+
+    $this->options = [ 'output-url' => $this->input->getOption('output-url') ];
+    $output_url = $this->options['output-url'];
+
+    $this->options = [ 'output-path' => $this->input->getOption('output-path') ];
+    $output_path = $this->options['output-path'];
+
     // curl function
     function pull($light) {
       $pull = curl_init();
@@ -41,39 +57,40 @@ class GenerateCommand extends ConsoleCommand
       return $emit;
     }
 
-    // get options
-    $this->options = [ 'website' => $this->input->getArgument('website') ];
-    $website = $this->options['website'];
 
-    $this->options = [ 'destination' => $this->input->getArgument('destination') ];
-    $destination = $this->options['destination'];
-
-    // set output dir
-    $event_horizon = GRAV_ROOT . '/';
-    if ($destination) {
-      $event_horizon .= $destination;
-    } elseif (pull($website . '/?pages=all&destination=true')) {
-      $event_horizon .= pull($website . '/?pages=all&destination=true');
+    // used to complete the output_url option
+    function portal($content, $in, $out) {
+      $wormhole = str_replace($in, $out, $content);
+      return $wormhole;
     }
 
-    // make output dir
+    // set output path
+    $event_horizon = GRAV_ROOT . '/'; // defaults to grav_root
+    if (!empty($output_path)) {
+      $event_horizon .= $output_path; // appends user defined output path in CL
+    } elseif (!empty(pull($input_url . '/?pages=all&output-path=true'))) {
+      $event_horizon .= pull($input_url . '/?pages=all&output-path=true'); // appends user defined output path in plugin settings
+    }
+
+    // make output path
     if (!is_dir(dirname($event_horizon))) { mkdir(dirname($event_horizon), 0755, true); }
 
     // get page routes
-    $pages = json_decode(pull($website . '/?pages=all'));
+    $pages = json_decode(pull($input_url . '/?pages=all'));
 
-    // make pages in output dir
+    // make pages in output path
     if (count($pages)) {
       foreach ($pages as $page) {
-        $page_dir = preg_replace( '/\/\/+/', '/', $event_horizon . $page);
-        $this->output->writeln('<green>GENERATING</green> ' . $page_dir);
-        if (!is_dir($page_dir)) { mkdir($page_dir, 0755, true); }
-        file_put_contents($page_dir . '/index.html', pull($website . $page));
+        $page_path = preg_replace('/\/\/+/', '/', $event_horizon . $page);
+        $file_path = preg_replace('/\/\/+/', '/', $page_path . '/index.html');
+        $star = $input_url . $page;
+        $universe = !empty($output_url) ? portal(pull($star), $input_url, $output_url) : pull($star);
+          $this->output->writeln('<green>GENERATING</green> ' . $page_path);
+          if (!is_dir($page_path)) { mkdir($page_path, 0755); }
+          file_put_contents($file_path, $universe);
       }
     } else {
-      $this->output->writeln('<red>ERROR</red> Blackhole failed to start.');
-      $this->output->writeln('<red>ERROR</red> The website must match the location of your Grav installation.');
-      $this->output->writeln('<red>ERROR</red> You must have at least one page.');
+      $this->output->writeln('<red>ERROR</red> No pages were found.');
     }
   }
 }

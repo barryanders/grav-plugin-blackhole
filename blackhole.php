@@ -16,23 +16,16 @@ class BlackholePlugin extends Plugin {
   }
 
   public function onPageInitialized() {
-    // get page routes
     if (!empty($_GET['pages']) && $_GET['pages'] == 'all') {
       ob_start();
+
       // get output_path from plugin settings
-      $output_path = $this->config->get('plugins.blackhole.output-path');
+      $output_path = $this->config->get('plugins.blackhole.output_path');
+
       // get all routes from grav
-      $grav_routes = $this->grav['pages']->routes();
-      $routes = array();
-      // add root first, otherwise it will be last
-      $routes[] = '/';
-      foreach ($grav_routes as $route => $path) {
-        // if route not in routes
-        if (!in_array($route, $routes)) {
-          $routes[] = $route;
-        }
-      }
-      if (!empty($_GET['output-path'])) {
+      $routes = $this->grav['pages']->routes();
+
+      if (!empty($_GET['output_path'])) {
         $this->content = $output_path;
       } else {
         $this->content = json_encode($routes, JSON_UNESCAPED_SLASHES);
@@ -41,7 +34,7 @@ class BlackholePlugin extends Plugin {
   }
 
   public function onOutputRendered() {
-    // Push routes to ?pages=all
+    // publish page routes
     if (!empty($_GET['pages']) && $_GET['pages'] == 'all') {
       ob_end_clean();
       echo $this->content;

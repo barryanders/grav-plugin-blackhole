@@ -1,5 +1,5 @@
 name: Blackhole
-version: 0.6.0
+version: 0.7.0
 description: Generates an html copy of your website
 icon: circle
 author:
@@ -24,7 +24,7 @@ form:
       validate:
         type: bool
 
-    output-path:
+    output_path:
       type: text
       label: Output Path
       help: Set the directory to which your static site will be written. Relative to Grav root (ex. ../)

@@ -27,23 +27,23 @@ Generate your static site. `generate` can also be written as `gen` or `g`.
 
 - **Input URL** (required) - Set the URL of your live Grav site.
 
-```bash
-bin/plugin blackhole generate http://localhost/grav
-```
+  ```bash
+  bin/plugin blackhole generate http://localhost/grav
+  ```
 
 #### Options
 
-- `--output-url` or `-d` - Set the URL of your static site. This determines the domain used in the absolute path of your links.
+- **Output URL** `--output-url` or `-d` - Set the URL of your static site. This determines the domain used in the absolute path of your links.
 
-```bash
---output-url https://website.com
-```
+  ```bash
+  --output-url https://website.com
+  ```
 
-- `--output-path` or `-p` - Set the directory to which your static site will be written (relative to Grav root).
+- **Output Path** `--output-path` or `-p` - Set the directory to which your static site will be written (relative to Grav root).
 
-```bash
---output-path ../build
-```
+  ```bash
+  --output-path ../build
+  ```
 
 ## Author
 

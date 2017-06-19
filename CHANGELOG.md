@@ -1,3 +1,8 @@
+# v0.7.0
+## 6/18/2017
+
+1. [](#new)
+    * Feature: only render pages that have changed/been modified. [#11](https://github.com/itssohma/grav-plugin-blackhole/issues/11)
 # v0.6.0
 ## 6/18/2017
 

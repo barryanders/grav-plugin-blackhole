@@ -57,10 +57,16 @@ class GenerateCommand extends ConsoleCommand {
       return $emit;
     }
 
-    // used to complete the output_url option
-    function portal($content, $in, $out) {
-      $wormhole = str_replace($in, $out, $content);
+    // swaps input_url with output_url in page code
+    function portal($in, $out, $content) {
+      $wormhole = str_ireplace($in, $out, $content);
       return $wormhole;
+    }
+
+    // write files
+    function generate($bh_route, $bh_file_path, $grav_page_data) {
+      if (!is_dir($bh_route)) { mkdir($bh_route, 0755, true); }
+      file_put_contents($bh_file_path, $grav_page_data);
     }
 
     // set output path
@@ -70,7 +76,6 @@ class GenerateCommand extends ConsoleCommand {
     } elseif (!empty(pull($input_url . '/?pages=all&output_path=true'))) {
       $event_horizon .= pull($input_url . '/?pages=all&output_path=true'); // appends user defined output path in plugin settings
     }
-
     // make output path
     if (!is_dir(dirname($event_horizon))) { mkdir(dirname($event_horizon), 0755, true); }
 
@@ -79,33 +84,32 @@ class GenerateCommand extends ConsoleCommand {
 
     // make pages in output path
     if (count($pages)) {
-      foreach ($pages as $route => $path) {
-        $page_url = $input_url . $route;
-        $page_route = preg_replace('/\/\/+/', '/', $event_horizon . $route);
-        $page_path = preg_replace('/\/\/+/', '/', $page_route . '/index.html');
-        $page_data = (!empty($output_url)
-          ? portal(pull($page_url), $input_url, $output_url)
+      foreach ($pages as $grav_route => $grav_file_path) {
+        $page_url = $input_url . $grav_route;
+        $bh_route = preg_replace('/\/\/+/', '/', $event_horizon . $grav_route);
+        $bh_file_path = preg_replace('/\/\/+/', '/', $bh_route . '/index.html');
+        $grav_page_data = (!empty($output_url)
+          ? portal($input_url, $output_url, pull($page_url))
           : pull($page_url)
         );
-
-        // if file exists
-        if (file_exists($page_path)) {
-
-          // if changes made, write a new copy
-          if (filemtime($path) > filemtime($page_path)) {
-            $this->output->writeln('<green>REGENERATING</green> ➜ ' . $page_route);
-            file_put_contents($page_path, $page_data);
-
-          // else do nothing
-          } else {
-            $this->output->writeln('<cyan>SKIPPING</cyan> No changes ➜ ' . $page_route);
+        // page exists
+        if (file_exists($bh_file_path)) {
+          switch (true) {
+            // page was changed: copy the new one
+            case filemtime($grav_file_path) > filemtime($bh_file_path):
+              $this->output->writeln("<green>REGENERATING</green> ➜ $bh_route");
+              generate($bh_route, $bh_file_path, $grav_page_data);
+              break;
+            // no page changes: skip it
+            default:
+              $this->output->writeln('<cyan>SKIPPING</cyan> No changes ➜ ' . $bh_route);
+              break;
           }
-
-        // else create the file
+        // page doesn't exist
         } else {
-          $this->output->writeln('<green>GENERATING</green> ➜ ' . $page_route);
-          if (!is_dir($page_route)) { mkdir($page_route, 0755); }
-          file_put_contents($page_path, $page_data);
+          // copy the new page
+          $this->output->writeln("<green>GENERATING</green> ➜ $bh_route");
+          generate($bh_route, $bh_file_path, $grav_page_data);
         }
       }
     } else {

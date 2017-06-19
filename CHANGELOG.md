@@ -1,8 +1,18 @@
+# v0.7.1
+## 6/19/2017
+
+1. [](#improved)
+    * Minor optimizations of the file generation method
+
+2. [](#bugfix)
+    * Fixed mkdir errors [#12](https://github.com/itssohma/grav-plugin-blackhole/issues/12)
+
 # v0.7.0
 ## 6/18/2017
 
 1. [](#new)
-    * Feature: only render pages that have changed/been modified. [#11](https://github.com/itssohma/grav-plugin-blackhole/issues/11)
+    * Feature: only render pages that have changed/been modified. [#12](https://github.com/itssohma/grav-plugin-blackhole/issues/12)
+
 # v0.6.0
 ## 6/18/2017
 

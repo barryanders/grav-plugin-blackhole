@@ -1,0 +1,30 @@
+name: Blackhole
+version: 0.7.2
+description: Generates an html copy of your website
+icon: circle
+author:
+  name: BarryMode
+homepage: https://github.com/barrymode/grav-plugin-blackhole
+keywords: grav, plugin, static, site, generator
+bugs: https://github.com/barrymode/grav-plugin-blackhole/issues
+docs: https://github.com/barrymode/grav-plugin-blackhole/blob/master/README.md
+license: MIT
+
+form:
+  validation: strict
+  fields:
+    enabled:
+      type: toggle
+      label: Plugin status
+      highlight: 1
+      default: 0
+      options:
+        1: Enabled
+        0: Disabled
+      validate:
+        type: bool
+
+    output_path:
+      type: text
+      label: Output Path
+      help: Set the directory to which your static site will be written. Relative to Grav root (ex. ../)

@@ -5,6 +5,9 @@ use Grav\Console\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
+require __DIR__ . '/../vendor/RollingCurl/RollingCurl.php';
+require __DIR__ . '/../vendor/RollingCurl/Request.php';
+
 class GenerateCommand extends ConsoleCommand {
   protected $options = [];
 
@@ -46,7 +49,7 @@ class GenerateCommand extends ConsoleCommand {
     $this->options = [ 'output-path' => $this->input->getOption('output-path') ];
     $output_path = $this->options['output-path'];
 
-    // curl function
+    // curl
     function pull($light) {
       $pull = curl_init();
       curl_setopt($pull, CURLOPT_URL, $light);
@@ -84,34 +87,43 @@ class GenerateCommand extends ConsoleCommand {
 
     // make pages in output path
     if (count($pages)) {
+      $rollingCurl = new \RollingCurl\RollingCurl();
       foreach ($pages as $grav_route => $grav_file_path) {
-        $page_url = $input_url . $grav_route;
-        $bh_route = preg_replace('/\/\/+/', '/', $event_horizon . $grav_route);
-        $bh_file_path = preg_replace('/\/\/+/', '/', $bh_route . '/index.html');
+        $request = new \RollingCurl\Request($input_url . $grav_route);
+        $request->grav_file_path = $grav_file_path;
+        $request->bh_route = preg_replace('/\/\/+/', '/', $event_horizon . $grav_route);
+        $request->bh_file_path = preg_replace('/\/\/+/', '/', $request->bh_route . '/index.html');
+        $rollingCurl->add($request);
+      }
+      $rollingCurl->setCallback(function(\RollingCurl\Request $request, \RollingCurl\RollingCurl $rollingCurl) {
+        // $request->getResponseText()
+        // $request->getUrl()
         $grav_page_data = (!empty($output_url)
-          ? portal($input_url, $output_url, pull($page_url))
-          : pull($page_url)
+          ? portal($input_url, $output_url, $request->getResponseText())
+          : $request->getResponseText()
         );
         // page exists
-        if (file_exists($bh_file_path)) {
+        if (file_exists($request->bh_file_path)) {
           switch (true) {
             // page was changed: copy the new one
-            case filemtime($grav_file_path) > filemtime($bh_file_path):
-              $this->output->writeln("<green>REGENERATING</green> ➜ $bh_route");
-              generate($bh_route, $bh_file_path, $grav_page_data);
+            case filemtime($request->grav_file_path) > filemtime($request->bh_file_path):
+              $this->output->writeln("<green>REGENERATING</green> ➜ $request->bh_route");
+              generate($request->bh_route, $request->bh_file_path, $grav_page_data);
               break;
             // no page changes: skip it
             default:
-              $this->output->writeln('<cyan>SKIPPING</cyan> No changes ➜ ' . $bh_route);
+              $this->output->writeln("<cyan>SKIPPING</cyan> No changes ➜ $request->bh_route");
               break;
           }
         // page doesn't exist
         } else {
           // copy the new page
-          $this->output->writeln("<green>GENERATING</green> ➜ $bh_route");
-          generate($bh_route, $bh_file_path, $grav_page_data);
+          $this->output->writeln("<green>GENERATING</green> ➜ $request->bh_route");
+          generate($request->bh_route, $request->bh_file_path, $grav_page_data);
         }
-      }
+      })
+      ->setSimultaneousLimit(20)
+      ->execute();
     } else {
       $this->output->writeln('<red>ERROR</red> No pages were found');
     }

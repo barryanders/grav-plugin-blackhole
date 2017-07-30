@@ -1,3 +1,15 @@
+#v0.8.0
+## 7/30/2017
+
+1. [](#improved)
+    * Lightning fast generation with asynchronous curl
+
+# v0.7.2
+## 7/25/2017
+
+1. [](#improved)
+    * GitHub links updated
+
 # v0.7.1
 ## 6/19/2017
 

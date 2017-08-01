@@ -1,4 +1,12 @@
-#v0.8.0
+# v0.8.1
+## 8/1/2017
+
+1. [](#new)
+    * Added timer
+2. [](#bugfix)
+    * Fixed memory growth problem [#16](https://github.com/barrymode/grav-plugin-blackhole/issues/16)
+
+# v0.8.0
 ## 7/30/2017
 
 1. [](#improved)
@@ -15,7 +23,6 @@
 
 1. [](#improved)
     * Minor optimizations of the file generation method
-
 2. [](#bugfix)
     * Fixed mkdir errors [#12](https://github.com/barrymode/grav-plugin-blackhole/issues/12)
 

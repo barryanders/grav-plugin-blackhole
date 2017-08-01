@@ -108,8 +108,8 @@ class GenerateCommand extends ConsoleCommand {
             switch (true) {
               // page was changed: copy the new one
               case filemtime($request->grav_file_path) > filemtime($request->bh_file_path):
-                $this->output->writeln('<green>REGENERATING</green> ➜ ' . realpath($request->bh_route));
                 generate($request->bh_route, $request->bh_file_path, $grav_page_data);
+                $this->output->writeln('<green>REGENERATING</green> ➜ ' . realpath($request->bh_route));
                 break;
               // no page changes: skip it
               default:
@@ -119,8 +119,8 @@ class GenerateCommand extends ConsoleCommand {
           // page doesn't exist
           } else {
             // copy the new page
-            $this->output->writeln('<green>GENERATING</green> ➜ ' . realpath($request->bh_route));
             generate($request->bh_route, $request->bh_file_path, $grav_page_data);
+            $this->output->writeln('<green>GENERATING</green> ➜ ' . realpath($request->bh_route));
           }
           // clear list of completed requests and prune pending request queue to avoid memory growth
           $rollingCurl->clearCompleted();

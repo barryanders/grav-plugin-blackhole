@@ -95,35 +95,42 @@ class GenerateCommand extends ConsoleCommand {
         $request->bh_file_path = preg_replace('/\/\/+/', '/', $request->bh_route . '/index.html');
         $rollingCurl->add($request);
       }
-      $rollingCurl->setCallback(function(\RollingCurl\Request $request, \RollingCurl\RollingCurl $rollingCurl) {
-        // $request->getResponseText()
-        // $request->getUrl()
-        $grav_page_data = (!empty($output_url)
-          ? portal($input_url, $output_url, $request->getResponseText())
-          : $request->getResponseText()
-        );
-        // page exists
-        if (file_exists($request->bh_file_path)) {
-          switch (true) {
-            // page was changed: copy the new one
-            case filemtime($request->grav_file_path) > filemtime($request->bh_file_path):
-              $this->output->writeln("<green>REGENERATING</green> ➜ $request->bh_route");
-              generate($request->bh_route, $request->bh_file_path, $grav_page_data);
-              break;
-            // no page changes: skip it
-            default:
-              $this->output->writeln("<cyan>SKIPPING</cyan> No changes ➜ $request->bh_route");
-              break;
+
+      $start = microtime(true);
+      $rollingCurl
+        ->setCallback(function(\RollingCurl\Request $request, \RollingCurl\RollingCurl $rollingCurl) {
+          $grav_page_data = (!empty($output_url)
+            ? portal($input_url, $output_url, $request->getResponseText())
+            : $request->getResponseText()
+          );
+          // page exists
+          if (file_exists($request->bh_file_path)) {
+            switch (true) {
+              // page was changed: copy the new one
+              case filemtime($request->grav_file_path) > filemtime($request->bh_file_path):
+                $this->output->writeln('<green>REGENERATING</green> ➜ ' . realpath($request->bh_route));
+                generate($request->bh_route, $request->bh_file_path, $grav_page_data);
+                break;
+              // no page changes: skip it
+              default:
+                $this->output->writeln('<cyan>SKIPPING</cyan> No changes ➜ ' . realpath($request->bh_route));
+                break;
+            }
+          // page doesn't exist
+          } else {
+            // copy the new page
+            $this->output->writeln('<green>GENERATING</green> ➜ ' . realpath($request->bh_route));
+            generate($request->bh_route, $request->bh_file_path, $grav_page_data);
           }
-        // page doesn't exist
-        } else {
-          // copy the new page
-          $this->output->writeln("<green>GENERATING</green> ➜ $request->bh_route");
-          generate($request->bh_route, $request->bh_file_path, $grav_page_data);
-        }
-      })
-      ->setSimultaneousLimit(20)
-      ->execute();
+          // clear list of completed requests and prune pending request queue to avoid memory growth
+          $rollingCurl->clearCompleted();
+          $rollingCurl->prunePendingRequestQueue();
+        })
+        ->setSimultaneousLimit(20)
+        ->execute()
+      ;
+      $this->output->writeln("Done in " . (microtime(true) - $start) . ' seconds');
+
     } else {
       $this->output->writeln('<red>ERROR</red> No pages were found');
     }

@@ -1,3 +1,9 @@
+# v0.8.2
+## 8/1/2017
+
+1. [](#bigfix)
+    * Fixed issue where generating path was blank in the CL
+
 # v0.8.1
 ## 8/1/2017
 

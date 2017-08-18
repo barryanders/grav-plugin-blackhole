@@ -1,7 +1,15 @@
+# v0.8.3
+## 8/18/2017
+
+1. [](#improved)
+    * Remove modular pages from routes [#18](https://github.com/barrymode/grav-plugin-blackhole/pull/18)
+2. [](#bugfix)
+    * Fixed output-url [#19](https://github.com/barrymode/grav-plugin-blackhole/pull/19)
+
 # v0.8.2
 ## 8/1/2017
 
-1. [](#bigfix)
+1. [](#bugfix)
     * Fixed issue where generating path was blank in the CL
 
 # v0.8.1

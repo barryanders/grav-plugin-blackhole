@@ -24,6 +24,13 @@ class BlackholePlugin extends Plugin {
 
       // get all routes from grav
       $routes = $this->grav['pages']->routes();
+      
+      // Skip individual modular pages that aren't meant to be viewed alone.
+      foreach ($routes as $path => $dir) {
+        if (strpos($path,'/_') !== FALSE) {
+          unset($routes[$path]);
+        }
+      }
 
       if (!empty($_GET['output_path'])) {
         $this->content = $output_path;

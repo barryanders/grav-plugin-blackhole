@@ -93,14 +93,16 @@ class GenerateCommand extends ConsoleCommand {
         $request->grav_file_path = $grav_file_path;
         $request->bh_route = preg_replace('/\/\/+/', '/', $event_horizon . $grav_route);
         $request->bh_file_path = preg_replace('/\/\/+/', '/', $request->bh_route . '/index.html');
+        $request->input_url = $input_url;
+        $request->output_url = $output_url;
         $rollingCurl->add($request);
       }
 
       $start = microtime(true);
       $rollingCurl
         ->setCallback(function(\RollingCurl\Request $request, \RollingCurl\RollingCurl $rollingCurl) {
-          $grav_page_data = (!empty($output_url)
-            ? portal($input_url, $output_url, $request->getResponseText())
+          $grav_page_data = (!empty($request->output_url)
+            ? portal($request->input_url, $request->output_url, $request->getResponseText())
             : $request->getResponseText()
           );
           // page exists

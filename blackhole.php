@@ -23,9 +23,14 @@ class BlackholePlugin extends Plugin {
       $output_path = $this->config->get('plugins.blackhole.output_path');
 
       // get all routes from grav
-      $routes = $this->grav['pages']->all()->nonModular()->toArray();
-      // empty the home page slug
-      $routes[$this->grav['pages']->all()->current()->path()]['slug'] = '';
+      $routes = $this->grav['pages']->routes();
+
+      // unset modular pages
+      foreach ($routes as $path => $dir) {
+        if (strpos($path, '/_') !== false) {
+          unset($routes[$path]);
+        }
+      }
 
       if (!empty($_GET['output_path'])) {
         $this->content = $output_path;

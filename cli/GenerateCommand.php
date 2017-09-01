@@ -88,8 +88,7 @@ class GenerateCommand extends ConsoleCommand {
     // make pages in output path
     if (count($pages)) {
       $rollingCurl = new \RollingCurl\RollingCurl();
-      foreach ($pages as $grav_file_path => $grav_route) {
-        $grav_slug = '/' . $grav_route->slug;
+      foreach ($pages as $grav_slug => $grav_file_path) {
         $request = new \RollingCurl\Request($input_url . $grav_slug);
         $request->grav_file_path = $grav_file_path;
         $request->bh_route = preg_replace('/\/\/+/', '/', $event_horizon . $grav_slug);

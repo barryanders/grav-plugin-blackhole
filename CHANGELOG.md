@@ -1,10 +1,16 @@
+#v0.8.4
+## 9/1/2017
+
+1. [](#bugfix)
+    * Reverted to previous route method because collections are inadequate
+
 # v0.8.3
 ## 8/18/2017
 
 1. [](#improved)
-    * Remove modular pages from routes [#18](https://github.com/barrymode/grav-plugin-blackhole/pull/18)
+    * Remove modular pages from routes ([#18](https://github.com/barrymode/grav-plugin-blackhole/pull/18))
 2. [](#bugfix)
-    * Fixed output-url [#19](https://github.com/barrymode/grav-plugin-blackhole/pull/19)
+    * Fixed output-url ([#19](https://github.com/barrymode/grav-plugin-blackhole/pull/19))
 
 # v0.8.2
 ## 8/1/2017
@@ -18,7 +24,7 @@
 1. [](#new)
     * Added timer
 2. [](#bugfix)
-    * Fixed memory growth problem [#16](https://github.com/barrymode/grav-plugin-blackhole/issues/16)
+    * Fixed memory growth problem ([#16](https://github.com/barrymode/grav-plugin-blackhole/issues/16))
 
 # v0.8.0
 ## 7/30/2017
@@ -38,25 +44,25 @@
 1. [](#improved)
     * Minor optimizations of the file generation method
 2. [](#bugfix)
-    * Fixed mkdir errors [#12](https://github.com/barrymode/grav-plugin-blackhole/issues/12)
+    * Fixed mkdir errors ([#12](https://github.com/barrymode/grav-plugin-blackhole/issues/12))
 
 # v0.7.0
 ## 6/18/2017
 
 1. [](#new)
-    * Feature: only render pages that have changed/been modified. [#12](https://github.com/barrymode/grav-plugin-blackhole/issues/12)
+    * Feature: only render pages that have changed/been modified. ([#12](https://github.com/barrymode/grav-plugin-blackhole/issues/12))
 
 # v0.6.0
 ## 6/18/2017
 
 1. [](#new)
-    * Portal function solves [#10](https://github.com/barrymode/grav-plugin-blackhole/issues/10)
+    * Portal function solves ([#10](https://github.com/barrymode/grav-plugin-blackhole/issues/10))
 
 # v0.5.1
 ## 6/1/2017
 
 1. [](#bugfix)
-    * Fixed [#7](https://github.com/barrymode/grav-plugin-blackhole/issues/7) and [#9](https://github.com/barrymode/grav-plugin-blackhole/issues/9)
+    * Fixed ([#7](https://github.com/barrymode/grav-plugin-blackhole/issues/7) and [#9](https://github.com/barrymode/grav-plugin-blackhole/issues/9))
 
 # v0.5.0
 ## 4/9/2017

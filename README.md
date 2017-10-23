@@ -47,6 +47,13 @@ bin/plugin blackhole generate http://localhost/grav
   --output-path ../build
   ```
 
+- **Routes** `--routes` or `-r`
+  Define a list of routes to only generate certain pages. Accepts a comma-separated list.
+
+  ```bash
+  --routes home,about,about/contact
+  ```
+
 - **Force** `--force` or `-f`
   Overwrite previously generated files.
 

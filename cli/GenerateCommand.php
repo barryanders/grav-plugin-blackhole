@@ -36,6 +36,12 @@ class GenerateCommand extends ConsoleCommand {
       'Set the directory to which your static site will be written. Relative to Grav root (ex. ../)'
     )
     ->addOption(
+      'routes',
+      'r',
+      InputOption::VALUE_REQUIRED,
+      'Define a list of routes to only generate certain pages. Accepts a comma-separated list.'
+    )
+    ->addOption(
       'force',
       'f',
       InputOption::VALUE_NONE,
@@ -50,11 +56,13 @@ class GenerateCommand extends ConsoleCommand {
       'input-url'   => $this->input->getArgument('input-url'),
       'output-url'  => $this->input->getOption('output-url'),
       'output-path' => $this->input->getOption('output-path'),
+      'routes'      => $this->input->getOption('routes'),
       'force'       => $this->input->getOption('force')
     ];
     $input_url   = $this->options['input-url'];
     $output_url  = $this->options['output-url'];
     $output_path = $this->options['output-path'];
+    $routes      = $this->options['routes'];
     $force       = $this->options['force'];
 
     // curl
@@ -90,6 +98,10 @@ class GenerateCommand extends ConsoleCommand {
 
     // get page routes
     $pages = json_decode(pull($input_url . '/?pages=all'));
+    if ($routes !== false) {
+      $pages2 = array(); foreach (explode(',', $routes) as $path) { $pages2['/'.$path] = ''; }
+      $pages = array_intersect_key((array)$pages, $pages2);
+    }
 
     // make pages in output path
     if (count($pages)) {

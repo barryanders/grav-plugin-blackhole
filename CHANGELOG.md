@@ -1,4 +1,10 @@
-#v0.8.4
+# v0.9.0
+## 10/23/2017
+
+1. [](#new)
+    * Force option allows for users to overwrite previously generated files.
+
+# v0.8.4
 ## 9/1/2017
 
 1. [](#bugfix)

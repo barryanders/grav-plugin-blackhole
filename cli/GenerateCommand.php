@@ -34,20 +34,28 @@ class GenerateCommand extends ConsoleCommand {
       'p',
       InputOption::VALUE_REQUIRED,
       'Set the directory to which your static site will be written. Relative to Grav root (ex. ../)'
+    )
+    ->addOption(
+      'force',
+      'f',
+      InputOption::VALUE_NONE,
+      'Overwrite previously generated files.'
     );
   }
 
   protected function serve() {
 
     // get options
-    $this->options = [ 'input-url' => $this->input->getArgument('input-url') ];
-    $input_url = $this->options['input-url'];
-
-    $this->options = [ 'output-url' => $this->input->getOption('output-url') ];
-    $output_url = $this->options['output-url'];
-
-    $this->options = [ 'output-path' => $this->input->getOption('output-path') ];
+    $this->options = [
+      'input-url'   => $this->input->getArgument('input-url'),
+      'output-url'  => $this->input->getOption('output-url'),
+      'output-path' => $this->input->getOption('output-path'),
+      'force'       => $this->input->getOption('force')
+    ];
+    $input_url   = $this->options['input-url'];
+    $output_url  = $this->options['output-url'];
     $output_path = $this->options['output-path'];
+    $force       = $this->options['force'];
 
     // curl
     function pull($light) {
@@ -95,6 +103,7 @@ class GenerateCommand extends ConsoleCommand {
         $request->bh_file_path = preg_replace('/\/\/+/', '/', $request->bh_route . '/index.html');
         $request->input_url = $input_url;
         $request->output_url = $output_url;
+        $request->force = $force;
         $rollingCurl->add($request);
       }
 
@@ -106,7 +115,7 @@ class GenerateCommand extends ConsoleCommand {
             : $request->getResponseText()
           );
           // page exists
-          if (file_exists($request->bh_file_path)) {
+          if (file_exists($request->bh_file_path) && !$request->force) {
             switch (true) {
               // page was changed: copy the new one
               case filemtime($request->grav_file_path) > filemtime($request->bh_file_path):

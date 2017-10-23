@@ -32,11 +32,8 @@ class BlackholePlugin extends Plugin {
         }
       }
 
-      if (!empty($_GET['output_path'])) {
-        $this->content = $output_path;
-      } else {
-        $this->content = json_encode($routes, JSON_UNESCAPED_SLASHES);
-      }
+      // set the content for ?pages=all
+      $this->content = json_encode($routes, JSON_UNESCAPED_SLASHES);
     }
   }
 

@@ -1,3 +1,9 @@
+# v0.9.1
+## 10/23/2017
+
+1. [](#bugfix)
+    * Fixed bug where only the home page was generated when -r wasn't set.
+
 # v0.9.0
 ## 10/23/2017
 

@@ -47,6 +47,9 @@ bin/plugin blackhole generate http://localhost/grav
   --output-path ../build
   ```
 
+- **Force** `--force` or `-f`
+  Overwrite previously generated files.
+
 ## Author
 
 | [![BarryMode](https://avatars3.githubusercontent.com/u/5648875?v=2&s=70)](https://twitter.com/barrymode "Follow @BarryMode on Twitter") |

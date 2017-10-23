@@ -84,8 +84,6 @@ class GenerateCommand extends ConsoleCommand {
     $event_horizon = GRAV_ROOT . '/'; // defaults to grav_root
     if (!empty($output_path)) {
       $event_horizon .= $output_path; // appends user defined output path in CL
-    } elseif (!empty(pull($input_url . '/?pages=all&output_path=true'))) {
-      $event_horizon .= pull($input_url . '/?pages=all&output_path=true'); // appends user defined output path in plugin settings
     }
     // make output path
     if (!is_dir(dirname($event_horizon))) { mkdir(dirname($event_horizon), 0755, true); }

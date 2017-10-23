@@ -3,6 +3,9 @@
 
 1. [](#new)
     * Force option allows for users to overwrite previously generated files.
+    * Routes option allows the user to choose which pages get generated.
+1. [](#improved)
+    * Separate the admin plugin settings from the CLI
 
 # v0.8.4
 ## 9/1/2017

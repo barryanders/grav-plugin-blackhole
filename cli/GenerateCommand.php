@@ -98,7 +98,7 @@ class GenerateCommand extends ConsoleCommand {
 
     // get page routes
     $pages = json_decode(pull($input_url . '/?pages=all'));
-    if ($routes !== false) {
+    if (!empty($routes)) {
       $pages2 = array(); foreach (explode(',', $routes) as $path) { $pages2['/'.$path] = ''; }
       $pages = array_intersect_key((array)$pages, $pages2);
     }

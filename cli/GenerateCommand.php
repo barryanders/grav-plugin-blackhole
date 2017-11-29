@@ -42,6 +42,12 @@ class GenerateCommand extends ConsoleCommand {
       'Define a list of routes to only generate certain pages. Accepts a comma-separated list.'
     )
     ->addOption(
+      'simultaneous',
+      's',
+      InputOption::VALUE_REQUIRED,
+      'Set how many files to generate at the same time.'
+    )
+    ->addOption(
       'force',
       'f',
       InputOption::VALUE_NONE,
@@ -53,17 +59,19 @@ class GenerateCommand extends ConsoleCommand {
 
     // get options
     $this->options = [
-      'input-url'   => $this->input->getArgument('input-url'),
-      'output-url'  => $this->input->getOption('output-url'),
-      'output-path' => $this->input->getOption('output-path'),
-      'routes'      => $this->input->getOption('routes'),
-      'force'       => $this->input->getOption('force')
+      'input-url'    => $this->input->getArgument('input-url'),
+      'output-url'   => $this->input->getOption('output-url'),
+      'output-path'  => $this->input->getOption('output-path'),
+      'routes'       => $this->input->getOption('routes'),
+      'simultaneous' => $this->input->getOption('simultaneous'),
+      'force'        => $this->input->getOption('force')
     ];
-    $input_url   = $this->options['input-url'];
-    $output_url  = $this->options['output-url'];
-    $output_path = $this->options['output-path'];
-    $routes      = $this->options['routes'];
-    $force       = $this->options['force'];
+    $input_url    = $this->options['input-url'];
+    $output_url   = $this->options['output-url'];
+    $output_path  = $this->options['output-path'];
+    $routes       = $this->options['routes'];
+    $simultaneous = !empty($this->options['simultaneous']) ? $this->options['simultaneous'] : 10;
+    $force        = $this->options['force'];
 
     // curl
     function pull($light) {
@@ -113,6 +121,7 @@ class GenerateCommand extends ConsoleCommand {
         $request->bh_file_path = preg_replace('/\/\/+/', '/', $request->bh_route . '/index.html');
         $request->input_url = $input_url;
         $request->output_url = $output_url;
+        $request->simultaneous = $simultaneous;
         $request->force = $force;
         $rollingCurl->add($request);
       }
@@ -147,7 +156,7 @@ class GenerateCommand extends ConsoleCommand {
           $rollingCurl->clearCompleted();
           $rollingCurl->prunePendingRequestQueue();
         })
-        ->setSimultaneousLimit(20)
+        ->setSimultaneousLimit($request->simultaneous)
         ->execute()
       ;
       $this->output->writeln("Done in " . (microtime(true) - $start) . ' seconds');

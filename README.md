@@ -1,4 +1,5 @@
 # Blackhole Plugin
+[![](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=barrymode%40protonmail%2ecom&lc=EN&item_name=BarryMode&item_number=Donation&currency_code=USD)
 
 The **Blackhole** Plugin is for [Grav CMS](http://github.com/getgrav/grav).
 

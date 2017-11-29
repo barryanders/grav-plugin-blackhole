@@ -24,10 +24,10 @@ form:
       validate:
         type: bool
 
-    output_path:
-      type: text
-      label: Output Path
-      help: Set the directory to which your static site will be written. Relative to Grav root (ex. ../)
+    # output_path:
+    #   type: text
+    #   label: Output Path
+    #   help: Set the directory to which your static site will be written. Relative to Grav root (ex. ../)
     force:
       type: toggle
       label: Force

@@ -1,3 +1,9 @@
+# v0.9.2
+## 11/29/2017
+
+1. [](#new)
+    * Set how many files will be generated simultaneously.
+
 # v0.9.1
 ## 10/23/2017
 

@@ -43,7 +43,7 @@ bin/plugin blackhole generate http://localhost/grav
   ```
 
 - **Output Path** `--output-path` or `-p`
-  Set the directory to which your static site will be written (relative to Grav root).
+  Set the directory to which your static site will be written relative to Grav root (default: Grav root).
 
   ```bash
   --output-path ../build
@@ -54,6 +54,13 @@ bin/plugin blackhole generate http://localhost/grav
 
   ```bash
   --routes home,about,about/contact
+  ```
+
+- **Simultaneous Limit** `--simultaneous` or `-s`
+  Set how many files to generate at the same time (default: 10)
+
+  ```bash
+  --simultaneous 10
   ```
 
 - **Force** `--force` or `-f`

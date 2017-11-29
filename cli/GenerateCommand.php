@@ -137,9 +137,9 @@ class GenerateCommand extends ConsoleCommand {
                 $this->output->writeln('<cyan>SKIPPING</cyan> No changes ➜ ' . realpath($request->bh_route));
                 break;
             }
-          // page doesn't exist
+          // page doesn't exist or force option is enabled
           } else {
-            // copy the new page
+            // copy the page
             generate($request->bh_route, $request->bh_file_path, $grav_page_data);
             $this->output->writeln('<green>GENERATING</green> ➜ ' . realpath($request->bh_route));
           }

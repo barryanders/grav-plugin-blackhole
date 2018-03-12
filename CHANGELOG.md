@@ -1,21 +1,28 @@
+# v0.10.0
+## 3/11/2018
+
+1. [](#bugfix)
+    * Fixed bug in RollingCurl where `prunePendingRequestQueue` was limiting the generation count ([#24](https://github.com/barrymode/grav-plugin-blackhole/issues/24))
+    * Fixed bug with the simultaneous limit where manual entry was returning an error
+
 # v0.9.2
 ## 11/29/2017
 
 1. [](#new)
-    * Set how many files will be generated simultaneously.
+    * Set how many files will be generated simultaneously
 
 # v0.9.1
 ## 10/23/2017
 
 1. [](#bugfix)
-    * Fixed bug where only the home page was generated when -r wasn't set.
+    * Fixed bug where only the home page was generated when -r wasn't set
 
 # v0.9.0
 ## 10/23/2017
 
 1. [](#new)
-    * Force option allows for users to overwrite previously generated files.
-    * Routes option allows the user to choose which pages get generated.
+    * Force option allows for users to overwrite previously generated files
+    * Routes option allows the user to choose which pages get generated
 1. [](#improved)
     * Separate the admin plugin settings from the CLI
 
@@ -71,7 +78,7 @@
 ## 6/18/2017
 
 1. [](#new)
-    * Feature: only render pages that have changed/been modified. ([#12](https://github.com/barrymode/grav-plugin-blackhole/issues/12))
+    * Feature: only render pages that have changed/been modified ([#12](https://github.com/barrymode/grav-plugin-blackhole/issues/12))
 
 # v0.6.0
 ## 6/18/2017

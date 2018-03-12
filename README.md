@@ -57,7 +57,7 @@ bin/plugin blackhole generate http://localhost/grav
   ```
 
 - **Simultaneous Limit** `--simultaneous` or `-s`
-  Set how many files to generate at the same time (default: 10)
+  Set how many files to generate at the same time (default: 10, must be greater than 1)
 
   ```bash
   --simultaneous 10

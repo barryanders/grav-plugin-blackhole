@@ -345,8 +345,8 @@ class RollingCurl
     }
 
     /**
-     * Define a callable to handle the response. 
-     * 
+     * Define a callable to handle the response.
+     *
      * It can be an anonymous function:
      *
      *     $rc = new RollingCurl();
@@ -365,7 +365,7 @@ class RollingCurl
      *         // Cannot be private or protected
      *         public function callback($request, $rolling_curl) {
      *             // process
-     *         } 
+     *         }
      *     }
      *
      * The called code should expect two parameters: \RollingCurl\Request $request, \RollingCurl\RollingCurl $rollingCurl
@@ -538,7 +538,8 @@ class RollingCurl
     private function getNextPendingRequests($limit = 1)
     {
         $requests = array();
-        while ($limit--) {
+        $countPending = $limit <= 0 ? $this->countPending() : $limit;
+        while ($countPending--) {
             if (!isset($this->pendingRequests[$this->pendingRequestsPosition])) {
                 break;
             }

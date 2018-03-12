@@ -121,7 +121,7 @@ class GenerateCommand extends ConsoleCommand {
         $request->bh_file_path = preg_replace('/\/\/+/', '/', $request->bh_route . '/index.html');
         $request->input_url = $input_url;
         $request->output_url = $output_url;
-        $request->simultaneous = $simultaneous;
+        $request->simultaneous = (int)$simultaneous;
         $request->force = $force;
         $rollingCurl->add($request);
       }

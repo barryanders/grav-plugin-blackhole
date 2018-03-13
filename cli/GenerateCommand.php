@@ -42,10 +42,17 @@ class GenerateCommand extends ConsoleCommand {
       'Define a list of routes to only generate certain pages. Accepts a comma-separated list.'
     )
     ->addOption(
+      'copy-assets',
+      'c',
+      InputOption::VALUE_REQUIRED,
+      'Copy assets to the output path with a white list of file types. Accepts a comma-separated list.'
+    )
+    ->addOption(
       'simultaneous',
       's',
-      InputOption::VALUE_REQUIRED,
-      'Set how many files to generate at the same time.'
+      InputOption::VALUE_OPTIONAL,
+      'Set how many files to generate at the same time.',
+      10
     )
     ->addOption(
       'force',
@@ -63,6 +70,7 @@ class GenerateCommand extends ConsoleCommand {
       'output-url'   => $this->input->getOption('output-url'),
       'output-path'  => $this->input->getOption('output-path'),
       'routes'       => $this->input->getOption('routes'),
+      'asset-types'  => $this->input->getOption('copy-assets'),
       'simultaneous' => $this->input->getOption('simultaneous'),
       'force'        => $this->input->getOption('force')
     ];
@@ -70,7 +78,8 @@ class GenerateCommand extends ConsoleCommand {
     $output_url   = $this->options['output-url'];
     $output_path  = $this->options['output-path'];
     $routes       = $this->options['routes'];
-    $simultaneous = !empty($this->options['simultaneous']) ? $this->options['simultaneous'] : 10;
+    $asset_types  = $this->options['asset-types'];
+    $simultaneous = $this->options['simultaneous'];
     $force        = $this->options['force'];
 
     // curl
@@ -84,16 +93,46 @@ class GenerateCommand extends ConsoleCommand {
       return $emit;
     }
 
+    // flatten a multidimensional array
+    function array_flatten($array = null) {
+      $result = array();
+      if (!is_array($array)) {
+        $array = func_get_args();
+      }
+      foreach ($array as $key => $value) {
+        if (is_array($value)) {
+          $result = array_merge($result, array_flatten($value));
+        } else {
+          $result = array_merge($result, array($key => $value));
+        }
+      }
+      return $result;
+    }
+
     // swaps input_url with output_url in page code
     function portal($in, $out, $content) {
       $wormhole = str_ireplace($in, $out, $content);
       return $wormhole;
     }
 
+    // get links to assets
+    function tidal_disruption($data, $asset_types, $elements, $attribute) {
+      $doc = new \DOMDocument();
+      @$doc->loadHTML($data);
+      $links = array();
+      foreach($doc->getElementsByTagName($elements) as $element) {
+        preg_match('/[^.]+$/', $element->getAttribute($attribute), $match);
+        if (!empty($match[0]) && in_array($match[0], $asset_types)) {
+          $links[] = $element->getAttribute($attribute);
+        }
+      }
+      return $links;
+    }
+
     // write files
-    function generate($bh_route, $bh_file_path, $grav_page_data) {
-      if (!is_dir($bh_route)) { mkdir($bh_route, 0755, true); }
-      file_put_contents($bh_file_path, $grav_page_data);
+    function generate($route, $file_path, $data) {
+      if (!is_dir($route)) { mkdir($route, 0755, true); }
+      file_put_contents($file_path, $data);
     }
 
     // set output path
@@ -112,20 +151,22 @@ class GenerateCommand extends ConsoleCommand {
     }
 
     // make pages in output path
-    if (count($pages)) {
+    $pageCount = count((array)$pages);
+    if ($pageCount) {
       $rollingCurl = new \RollingCurl\RollingCurl();
       foreach ($pages as $grav_slug => $grav_file_path) {
         $request = new \RollingCurl\Request($input_url . $grav_slug);
+        $request->event_horizon = $event_horizon;
         $request->grav_file_path = $grav_file_path;
         $request->bh_route = preg_replace('/\/\/+/', '/', $event_horizon . $grav_slug);
         $request->bh_file_path = preg_replace('/\/\/+/', '/', $request->bh_route . '/index.html');
         $request->input_url = $input_url;
         $request->output_url = $output_url;
+        $request->asset_types = $asset_types;
         $request->simultaneous = (int)$simultaneous;
         $request->force = $force;
         $rollingCurl->add($request);
       }
-
       $start = microtime(true);
       $rollingCurl
         ->setCallback(function(\RollingCurl\Request $request, \RollingCurl\RollingCurl $rollingCurl) {
@@ -152,6 +193,37 @@ class GenerateCommand extends ConsoleCommand {
             generate($request->bh_route, $request->bh_file_path, $grav_page_data);
             $this->output->writeln('<green>GENERATING</green> ➜ ' . realpath($request->bh_route));
           }
+          // copy assets
+          if (!empty($request->asset_types)) {
+            $asset_types = array(); foreach (explode(',', $request->asset_types) as $asset_type) { $asset_types[] = $asset_type; }
+            $asset_links = array();
+            $asset_links[] = tidal_disruption($grav_page_data, $asset_types, 'link', 'href');
+            $asset_links[] = tidal_disruption($grav_page_data, $asset_types, 'script', 'src');
+            $asset_links[] = tidal_disruption($grav_page_data, $asset_types, 'a', 'href');
+            $asset_links[] = tidal_disruption($grav_page_data, $asset_types, 'img', 'src');
+            foreach (array_flatten($asset_links) as $asset) {
+              $input_url_parts = parse_url($request->input_url);
+              $asset_url = $input_url_parts['scheme'] . '://' . $input_url_parts['host'] . $asset;
+              $asset_file_origin = str_replace($input_url_parts['path'], '', GRAV_ROOT) . $asset;
+              $asset_file_destination = $request->event_horizon . str_replace($input_url_parts['path'], '', $asset);
+              $asset_route = str_replace(basename($asset_file_destination), '', $asset_file_destination);
+              // asset doesn't exist
+              if (file_exists($asset_file_destination)) {
+                switch (true) {
+                  // asset was changed: copy the new one
+                  case filemtime($asset_file_origin) > filemtime($asset_file_destination):
+                    generate($asset_route, $asset_file_destination, file_get_contents($asset_url));
+                    break;
+                  // no asset changes: skip it
+                  default:
+                    break;
+                }
+              // asset doesn't exist
+              } else {
+                generate($asset_route, $asset_file_destination, file_get_contents($asset_url));
+              }
+            }
+          }
           // clear list of completed requests and prune pending request queue to avoid memory growth
           $rollingCurl->clearCompleted();
           $rollingCurl->prunePendingRequestQueue();
@@ -159,7 +231,7 @@ class GenerateCommand extends ConsoleCommand {
         ->setSimultaneousLimit($request->simultaneous)
         ->execute()
       ;
-      $this->output->writeln("Done in " . (microtime(true) - $start) . ' seconds');
+      $this->output->writeln('<green>DONE</green> Blackhole processed ' . $pageCount . ' pages in ' . (microtime(true) - $start) . ' seconds');
 
     } else {
       $this->output->writeln('<red>ERROR</red> No pages were found');

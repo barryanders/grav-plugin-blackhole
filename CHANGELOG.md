@@ -1,3 +1,9 @@
+# v0.11.0
+## 3/12/2018
+
+1. [](#new)
+    * Copy assets option searches for standard web assets and copies them into the output path (you may specify file types)
+
 # v0.10.0
 ## 3/11/2018
 

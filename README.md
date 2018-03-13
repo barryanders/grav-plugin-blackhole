@@ -56,6 +56,13 @@ bin/plugin blackhole generate http://localhost/grav
   --routes home,about,about/contact
   ```
 
+- **Copy Assets** `--copy-assets` or `-c`
+  Copy assets to the output path with a white list of file types. Accepts a comma-separated list.
+
+  ```bash
+  --copy-assets css,js,img,png,gif,ico
+  ```
+
 - **Simultaneous Limit** `--simultaneous` or `-s`
   Set how many files to generate at the same time (default: 10, must be greater than 1)
 

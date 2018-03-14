@@ -1,5 +1,11 @@
+# v0.11.1
+## 3/13/2018
+
+1. [](#bugfix)
+    * `--copy-assets` didn't previously take external assets into consideration
+
 # v0.11.0
-## 3/12/2018
+## 3/13/2018
 
 1. [](#new)
     * Copy assets option searches for standard web assets and copies them into the output path (you may specify file types)

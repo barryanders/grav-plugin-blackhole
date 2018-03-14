@@ -201,26 +201,28 @@ class GenerateCommand extends ConsoleCommand {
             $asset_links[] = tidal_disruption($grav_page_data, $asset_types, 'script', 'src');
             $asset_links[] = tidal_disruption($grav_page_data, $asset_types, 'a', 'href');
             $asset_links[] = tidal_disruption($grav_page_data, $asset_types, 'img', 'src');
+            $input_url_parts = parse_url($request->input_url);
             foreach (array_flatten($asset_links) as $asset) {
-              $input_url_parts = parse_url($request->input_url);
-              $asset_url = $input_url_parts['scheme'] . '://' . $input_url_parts['host'] . $asset;
-              $asset_file_origin = str_replace($input_url_parts['path'], '', GRAV_ROOT) . $asset;
-              $asset_file_destination = $request->event_horizon . str_replace($input_url_parts['path'], '', $asset);
-              $asset_route = str_replace(basename($asset_file_destination), '', $asset_file_destination);
-              // asset doesn't exist
-              if (file_exists($asset_file_destination)) {
-                switch (true) {
-                  // asset was changed: copy the new one
-                  case filemtime($asset_file_origin) > filemtime($asset_file_destination):
-                    generate($asset_route, $asset_file_destination, file_get_contents($asset_url));
-                    break;
-                  // no asset changes: skip it
-                  default:
-                    break;
+              if (strpos($asset, '/') === 0 || $input_url_parts['host'] === parse_url($asset)['host']) {
+                $asset_url = $input_url_parts['scheme'] . '://' . $input_url_parts['host'] . $asset;
+                $asset_file_origin = str_replace($input_url_parts['path'], '', GRAV_ROOT) . $asset;
+                $asset_file_destination = $request->event_horizon . str_replace($input_url_parts['path'], '', $asset);
+                $asset_route = str_replace(basename($asset_file_destination), '', $asset_file_destination);
+                // asset doesn't exist
+                if (file_exists($asset_file_destination)) {
+                  switch (true) {
+                    // asset was changed: copy the new one
+                    case filemtime($asset_file_origin) > filemtime($asset_file_destination):
+                      generate($asset_route, $asset_file_destination, file_get_contents($asset_url));
+                      break;
+                    // no asset changes: skip it
+                    default:
+                      break;
+                  }
+                // asset doesn't exist
+                } else {
+                  generate($asset_route, $asset_file_destination, file_get_contents($asset_url));
                 }
-              // asset doesn't exist
-              } else {
-                generate($asset_route, $asset_file_destination, file_get_contents($asset_url));
               }
             }
           }

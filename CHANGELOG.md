@@ -1,5 +1,11 @@
+# v0.11.2
+## 3/28/2018
+1. [](#improved)
+    * Breaking change: `--copy-assets` -> `--assets`
+    * Assets has been simplified and no longer accepts input.
+
 # v0.11.1
-## 3/13/2018
+## 3/14/2018
 
 1. [](#bugfix)
     * `--copy-assets` didn't previously take external assets into consideration
@@ -27,16 +33,16 @@
 ## 10/23/2017
 
 1. [](#bugfix)
-    * Fixed bug where only the home page was generated when -r wasn't set
+    * Fixed bug where only the home page was generated when `-r` wasn't set
 
 # v0.9.0
 ## 10/23/2017
 
 1. [](#new)
-    * Force option allows for users to overwrite previously generated files
-    * Routes option allows the user to choose which pages get generated
+    * `--force` option allows for users to overwrite previously generated files
+    * `--routes` option allows the user to choose which pages get generated
 1. [](#improved)
-    * Separate the admin plugin settings from the CLI
+    * Separated the admin plugin settings from the CLI
 
 # v0.8.4
 ## 9/1/2017
@@ -136,7 +142,7 @@
 
 1. [](#improved)
     * Removed hacky JS shit
-    * Added `g` as an alt short form of generate
+    * Added `g` as an alt short form of `generate`
 2. [](#bugfix)
     * Fixed link error to pages query ([#3](https://github.com/barrymode/grav-plugin-blackhole/issues/3))
 
@@ -172,7 +178,7 @@
 ##  10/06/2016
 
 1. [](#new)
-    * Use ?pages=all to bypass impossible call grav->['pages'] in CLI
+    * Use `?pages=all` to bypass impossible call `grav->['pages']` in CLI
     * Loop and curl to generate the pages
     * Named Blackhole to go with Grav
     * ChangeLog, Blueprints, README

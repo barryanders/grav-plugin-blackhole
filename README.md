@@ -50,25 +50,21 @@ bin/plugin blackhole generate http://localhost/grav
   ```
 
 - **Routes** `--routes` or `-r`
-  Define a list of routes to only generate certain pages. Accepts a comma-separated list.
+  Define a list of routes to only generate certain pages.
 
   ```bash
   --routes home,about,about/contact
   ```
 
-- **Copy Assets** `--copy-assets` or `-c`
-  Copy assets to the output path with a white list of file types. Accepts a comma-separated list.
-
-  ```bash
-  --copy-assets css,js,jpg,png,gif,ico
-  ```
-
 - **Simultaneous Limit** `--simultaneous` or `-s`
-  Set how many files to generate at the same time (default: 10, must be greater than 1)
+  Set how many files to generate at the same time (default: 10, must be greater than 1).
 
   ```bash
   --simultaneous 10
   ```
+
+- **Assets** `--assets` or `-a`
+  Copy assets to the output path.
 
 - **Force** `--force` or `-f`
   Overwrite previously generated files.

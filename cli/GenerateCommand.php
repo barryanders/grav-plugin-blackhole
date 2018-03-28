@@ -39,13 +39,7 @@ class GenerateCommand extends ConsoleCommand {
       'routes',
       'r',
       InputOption::VALUE_REQUIRED,
-      'Define a list of routes to only generate certain pages. Accepts a comma-separated list.'
-    )
-    ->addOption(
-      'copy-assets',
-      'c',
-      InputOption::VALUE_REQUIRED,
-      'Copy assets to the output path with a white list of file types. Accepts a comma-separated list.'
+      'Define a list of routes to only generate certain pages.'
     )
     ->addOption(
       'simultaneous',
@@ -53,6 +47,12 @@ class GenerateCommand extends ConsoleCommand {
       InputOption::VALUE_OPTIONAL,
       'Set how many files to generate at the same time.',
       10
+    )
+    ->addOption(
+      'assets',
+      'a',
+      InputOption::VALUE_NONE,
+      'Copy assets to the output path.'
     )
     ->addOption(
       'force',
@@ -70,16 +70,16 @@ class GenerateCommand extends ConsoleCommand {
       'output-url'   => $this->input->getOption('output-url'),
       'output-path'  => $this->input->getOption('output-path'),
       'routes'       => $this->input->getOption('routes'),
-      'asset-types'  => $this->input->getOption('copy-assets'),
       'simultaneous' => $this->input->getOption('simultaneous'),
+      'assets'       => $this->input->getOption('assets'),
       'force'        => $this->input->getOption('force')
     ];
     $input_url    = $this->options['input-url'];
     $output_url   = $this->options['output-url'];
     $output_path  = $this->options['output-path'];
     $routes       = $this->options['routes'];
-    $asset_types  = $this->options['asset-types'];
     $simultaneous = $this->options['simultaneous'];
+    $assets       = $this->options['assets'];
     $force        = $this->options['force'];
 
     // curl
@@ -116,15 +116,12 @@ class GenerateCommand extends ConsoleCommand {
     }
 
     // get links to assets
-    function tidal_disruption($data, $asset_types, $elements, $attribute) {
+    function tidal_disruption($data, $elements, $attribute) {
       $doc = new \DOMDocument();
       @$doc->loadHTML($data);
       $links = array();
       foreach($doc->getElementsByTagName($elements) as $element) {
-        preg_match('/[^.]+$/', $element->getAttribute($attribute), $match);
-        if (!empty($match[0]) && in_array($match[0], $asset_types)) {
-          $links[] = $element->getAttribute($attribute);
-        }
+        $links[] = $element->getAttribute($attribute);
       }
       return $links;
     }
@@ -162,7 +159,7 @@ class GenerateCommand extends ConsoleCommand {
         $request->bh_file_path = preg_replace('/\/\/+/', '/', $request->bh_route . '/index.html');
         $request->input_url = $input_url;
         $request->output_url = $output_url;
-        $request->asset_types = $asset_types;
+        $request->assets = $assets;
         $request->simultaneous = (int)$simultaneous;
         $request->force = $force;
         $rollingCurl->add($request);
@@ -194,13 +191,11 @@ class GenerateCommand extends ConsoleCommand {
             $this->output->writeln('<green>GENERATING</green> ➜ ' . realpath($request->bh_route));
           }
           // copy assets
-          if (!empty($request->asset_types)) {
-            $asset_types = array(); foreach (explode(',', $request->asset_types) as $asset_type) { $asset_types[] = $asset_type; }
+          if ($request->assets) {
             $asset_links = array();
-            $asset_links[] = tidal_disruption($grav_page_data, $asset_types, 'link', 'href');
-            $asset_links[] = tidal_disruption($grav_page_data, $asset_types, 'script', 'src');
-            $asset_links[] = tidal_disruption($grav_page_data, $asset_types, 'a', 'href');
-            $asset_links[] = tidal_disruption($grav_page_data, $asset_types, 'img', 'src');
+            $asset_links[] = tidal_disruption($grav_page_data, 'link', 'href');
+            $asset_links[] = tidal_disruption($grav_page_data, 'script', 'src');
+            $asset_links[] = tidal_disruption($grav_page_data, 'img', 'src');
             $input_url_parts = parse_url($request->input_url);
             foreach (array_flatten($asset_links) as $asset) {
               if (strpos($asset, '/') === 0 || $input_url_parts['host'] === parse_url($asset)['host']) {

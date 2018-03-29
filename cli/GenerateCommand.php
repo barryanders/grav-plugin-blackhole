@@ -121,7 +121,9 @@ class GenerateCommand extends ConsoleCommand {
       @$doc->loadHTML($data);
       $links = array();
       foreach($doc->getElementsByTagName($elements) as $element) {
-        $links[] = $element->getAttribute($attribute);
+        if ($element->getAttribute('rel') !== 'canonical') {
+          $links[] = $element->getAttribute($attribute);
+        }
       }
       return $links;
     }
@@ -206,7 +208,7 @@ class GenerateCommand extends ConsoleCommand {
                 $asset_file_origin = str_replace($input_url_parts['path'], '', GRAV_ROOT) . $asset;
                 $asset_file_destination = $request->event_horizon . str_replace($input_url_parts['path'], '', $asset);
                 $asset_route = str_replace(basename($asset_file_destination), '', $asset_file_destination);
-                // asset doesn't exist
+                // asset exists
                 if (file_exists($asset_file_destination)) {
                   switch (true) {
                     // asset was changed: copy the new one

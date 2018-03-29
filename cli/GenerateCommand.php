@@ -159,8 +159,8 @@ class GenerateCommand extends ConsoleCommand {
         $request->bh_file_path = preg_replace('/\/\/+/', '/', $request->bh_route . '/index.html');
         $request->input_url = $input_url;
         $request->output_url = $output_url;
-        $request->assets = $assets;
         $request->simultaneous = (int)$simultaneous;
+        $request->assets = $assets;
         $request->force = $force;
         $rollingCurl->add($request);
       }
@@ -198,7 +198,10 @@ class GenerateCommand extends ConsoleCommand {
             $asset_links[] = tidal_disruption($grav_page_data, 'img', 'src');
             $input_url_parts = parse_url($request->input_url);
             foreach (array_flatten($asset_links) as $asset) {
-              if (strpos($asset, '/') === 0 || $input_url_parts['host'] === parse_url($asset)['host']) {
+              if (
+                strpos($asset, 'data:') !== 0 && // exclude data URIs
+                (strpos($asset, '/') === 0 || $input_url_parts['host'] === parse_url($asset)['host']) // continue if asset is local
+              ) {
                 $asset_url = $input_url_parts['scheme'] . '://' . $input_url_parts['host'] . $asset;
                 $asset_file_origin = str_replace($input_url_parts['path'], '', GRAV_ROOT) . $asset;
                 $asset_file_destination = $request->event_horizon . str_replace($input_url_parts['path'], '', $asset);

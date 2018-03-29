@@ -19,9 +19,6 @@ class BlackholePlugin extends Plugin {
     if (!empty($_GET['pages']) && $_GET['pages'] == 'all') {
       ob_start();
 
-      // get output_path from plugin settings
-      $output_path = $this->config->get('plugins.blackhole.output_path');
-
       // get all routes from grav
       $routes = $this->grav['pages']->routes();
 
@@ -31,9 +28,12 @@ class BlackholePlugin extends Plugin {
           unset($routes[$path]);
         }
       }
-
-      // set the content for ?pages=all
       $this->content = json_encode($routes, JSON_UNESCAPED_SLASHES);
+    } else if (!empty($_GET['generate']) && $_GET['generate'] == 'true') {
+      // get generate_command from plugin settings
+      $generate_command = $this->config->get('plugins.blackhole.generate_command');
+
+      $this->content = $generate_command;
     }
   }
 
@@ -42,6 +42,10 @@ class BlackholePlugin extends Plugin {
     if (!empty($_GET['pages']) && $_GET['pages'] == 'all') {
       ob_end_clean();
       echo $this->content;
+    }
+    // action for generate button
+    if (!empty($_GET['generate']) && $_GET['generate'] == 'true') {
+      shell_exec('bin/plugin blackhole generate ' . $this->content);
     }
   }
 }

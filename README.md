@@ -8,7 +8,7 @@ The **Blackhole** Plugin is for [Grav CMS](http://github.com/getgrav/grav).
 
 Why Blackhole? Grav is a space term, so I think this plugin should follow suit. Time stops at the event horizon of a black hole, which is exactly what this plugin does to your website. It freezes it in a state. By Increasing **grav**ity to infinity you get a **static** black hole, or in this case you generate a **static** html copy of your **Grav** website.
 
-*Currently, Blackhole only supports pages.*
+*Currently, Blackhole doesn't support taxonomy.*
 
 ## Installation
 
@@ -25,7 +25,7 @@ If you can't use GPM you can manually install this plugin. Download the zip vers
 
 ### Generate Command
 
-Generate your static site. `generate` can also be written as `gen` or `g`.
+The generate command can be used from the command line or directly in the Grav Admin Panel. Generate your static site. `generate` can also be written as `gen` or `g`.
 
 - **Input URL** (required) - Set the URL of your live Grav site.
 

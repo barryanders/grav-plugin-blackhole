@@ -13,18 +13,57 @@ license: MIT
 form:
   validation: strict
   fields:
-    enabled:
-      type: toggle
-      label: Plugin status
-      highlight: 1
-      default: 0
-      options:
-        1: Enabled
-        0: Disabled
-      validate:
-        type: bool
-
-    generate_command:
-      type: text
-      label: '<a class="button" href="?generate=true"><i class="fa fa-fw fa-circle"></i> Generate</a><style>.form-data.block.size-2-3[data-grav-field="text"]:before { font-weight: bold; content: "bin/plugin blackhole generate"; } .form-data.block.size-2-3[data-grav-field="text"] .form-input-wrapper { display: inline-block; width: 50%; }</style>'
-      default:
+    generate:
+      type: fieldset
+      title: Generate
+      info: Generate your static site.
+      icon: circle
+      collapsed: false
+      collapsible: false
+      fields:
+        generate.output_url:
+          type: text
+          label: Output URL
+          help: Set the URL of your static site. This determines the domain used in the absolute path of your links.
+        generate.output_path:
+          type: text
+          label: Output Path
+          help: Set the directory to which your static site will be written (relative to Grav root).
+        generate.routes:
+          type: text
+          label: Routes
+          help: Limit generation to a select list of page routes.
+        generate.simultaneous:
+          type: int
+          label: Simultaneous Limit
+          help: Set how many files will generate at the same time.
+          size: x-small
+          validate:
+            type: number
+            min: 1
+        generate.assets:
+          type: toggle
+          label: Assets
+          help: Copy assets to the output path.
+          highlight: 1
+          default: 0
+          options:
+            1: Enabled
+            0: Disabled
+          validate:
+            type: bool
+        generate.force:
+          type: toggle
+          label: Force
+          help: Overwrite previously generated files.
+          highlight: 1
+          default: 0
+          options:
+            1: Enabled
+            0: Disabled
+          validate:
+            type: bool
+        generate.button:
+          type: text
+          disabled: true
+          label: <script>$(document).ready(function() { $('input[name="data[generate][button]"]').replaceWith('<a class="button" href="?generate=true" style="float:right;"><i class="fa fa-fw fa-circle"></i> Generate</a>'); });</script>

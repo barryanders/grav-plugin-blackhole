@@ -7,7 +7,6 @@ use Grav\Common\Page\Page;
 
 class BlackholePlugin extends Plugin {
   public $content;
-
   public static function getSubscribedEvents() {
     return [
       'onPageInitialized' => ['onPageInitialized', 0],
@@ -16,12 +15,14 @@ class BlackholePlugin extends Plugin {
   }
 
   public function onPageInitialized() {
+    if (!defined('GRAV_URL')) {
+      define('GRAV_URL', $this->grav['uri']->base() . $this->grav['pages']->baseUrl());
+    }
+
     if (!empty($_GET['pages']) && $_GET['pages'] == 'all') {
       ob_start();
-
       // get all routes from grav
       $routes = $this->grav['pages']->routes();
-
       // unset modular pages
       foreach ($routes as $path => $dir) {
         if (strpos($path, '/_') !== false) {
@@ -29,11 +30,24 @@ class BlackholePlugin extends Plugin {
         }
       }
       $this->content = json_encode($routes, JSON_UNESCAPED_SLASHES);
+
     } else if (!empty($_GET['generate']) && $_GET['generate'] == 'true') {
       // get generate_command from plugin settings
-      $generate_command = $this->config->get('plugins.blackhole.generate_command');
-
-      $this->content = $generate_command;
+      $output_url   = $this->config->get('plugins.blackhole.generate.output_url');
+      $output_path  = $this->config->get('plugins.blackhole.generate.output_path');
+      $routes       = $this->config->get('plugins.blackhole.generate.routes');
+      $simultaneous = $this->config->get('plugins.blackhole.generate.simultaneous');
+      $assets       = $this->config->get('plugins.blackhole.generate.assets');
+      $force        = $this->config->get('plugins.blackhole.generate.force');
+      $this->content =
+        'bin/plugin blackhole generate ' . GRAV_URL .
+        ($output_url   ? ' --output-url '   . $output_url   : '') .
+        ($output_path  ? ' --output-path '  . $output_path  : '') .
+        ($routes       ? ' --routes '       . $routes       : '') .
+        ($simultaneous ? ' --simultaneous ' . $simultaneous : '') .
+        ($assets       ? ' --assets'                        : '') .
+        ($force        ? ' --force'                         : '')
+      ;
     }
   }
 
@@ -45,7 +59,7 @@ class BlackholePlugin extends Plugin {
     }
     // action for generate button
     if (!empty($_GET['generate']) && $_GET['generate'] == 'true') {
-      shell_exec('bin/plugin blackhole generate ' . $this->content);
+      shell_exec($this->content);
     }
   }
 }

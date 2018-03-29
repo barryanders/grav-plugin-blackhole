@@ -1,5 +1,15 @@
+# v0.12.0
+## 3/29/2018
+
+1. [](#new)
+    * Generate button added to Grav admin ([#5](https://github.com/barrymode/grav-plugin-blackhole/issues/5))
+1. [](#improved)
+    * Assets no longer logs errors when processing data URIs
+    * Assets ignores canonical links
+
 # v0.11.2
 ## 3/28/2018
+
 1. [](#improved)
     * Breaking change: `--copy-assets` -> `--assets`
     * Assets has been simplified and no longer accepts input.

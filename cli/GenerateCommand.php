@@ -17,35 +17,35 @@ class GenerateCommand extends ConsoleCommand {
     ->setName("g")
     ->setName("gen")
     ->setName("generate")
-    ->setDescription("Generates static site")
+    ->setDescription("Generate your static site.")
     ->addArgument(
       'input-url',
       InputArgument::REQUIRED,
-      'Set the URL of your live Grav site (ex. http://localhost/grav)'
+      'Enter the URL to your live Grav site.'
     )
     ->addOption(
       'output-url',
       'd',
       InputOption::VALUE_REQUIRED,
-      'Set the URL of your static site. This determines the domain used in the absolute path of your links (ex. https://website.com)'
+      'Set the URL of your static site. This determines the domain used in the absolute path of your links.'
     )
     ->addOption(
       'output-path',
       'p',
       InputOption::VALUE_REQUIRED,
-      'Set the directory to which your static site will be written. Relative to Grav root (ex. ../)'
+      'Set the directory to which your static site will be written (relative to Grav root).'
     )
     ->addOption(
       'routes',
       'r',
       InputOption::VALUE_REQUIRED,
-      'Define a list of routes to only generate certain pages.'
+      'Limit generation to a select list of page routes.'
     )
     ->addOption(
       'simultaneous',
       's',
       InputOption::VALUE_OPTIONAL,
-      'Set how many files to generate at the same time.',
+      'Set how many files will generate at the same time.',
       10
     )
     ->addOption(
@@ -161,7 +161,7 @@ class GenerateCommand extends ConsoleCommand {
         $request->bh_file_path = preg_replace('/\/\/+/', '/', $request->bh_route . '/index.html');
         $request->input_url = $input_url;
         $request->output_url = $output_url;
-        $request->simultaneous = (int)$simultaneous;
+        $request->simultaneous = (int)$simultaneous < 1 ? 1 : (int)$simultaneous;
         $request->assets = $assets;
         $request->force = $force;
         $rollingCurl->add($request);

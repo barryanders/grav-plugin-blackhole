@@ -27,7 +27,7 @@ If you can't use GPM you can manually install this plugin. Download the zip vers
 
 The generate command can be used from the command line or directly in the Grav Admin Panel. Generate your static site. `generate` can also be written as `gen` or `g`.
 
-- **Input URL** (required) - Set the URL of your live Grav site.
+- **Input URL** (required) - Enter the URL to your live Grav site.
 
 ```bash
 bin/plugin blackhole generate http://localhost/grav
@@ -43,21 +43,21 @@ bin/plugin blackhole generate http://localhost/grav
   ```
 
 - **Output Path** `--output-path` or `-p`
-  Set the directory to which your static site will be written relative to Grav root (default: Grav root).
+  Set the directory to which your static site will be written (relative to Grav root).
 
   ```bash
   --output-path ../build
   ```
 
 - **Routes** `--routes` or `-r`
-  Define a list of routes to only generate certain pages.
+  Limit generation to a select list of page routes.
 
   ```bash
   --routes home,about,about/contact
   ```
 
 - **Simultaneous Limit** `--simultaneous` or `-s`
-  Set how many files to generate at the same time (default: 10, must be greater than 1).
+  Set how many files will generate at the same time (default: 10).
 
   ```bash
   --simultaneous 10

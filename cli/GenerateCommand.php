@@ -27,13 +27,13 @@ class GenerateCommand extends ConsoleCommand {
       'output-url',
       'd',
       InputOption::VALUE_REQUIRED,
-      'Set the URL of your static site. This determines the domain used in the absolute path of your links.'
+      'The URL of your static site. This determines the domain used in the absolute path of your links.'
     )
     ->addOption(
       'output-path',
       'p',
       InputOption::VALUE_REQUIRED,
-      'Set the directory to which your static site will be written (relative to Grav root).'
+      'The directory to which your static site will be written (relative to Grav root).'
     )
     ->addOption(
       'routes',
@@ -45,7 +45,7 @@ class GenerateCommand extends ConsoleCommand {
       'simultaneous',
       's',
       InputOption::VALUE_OPTIONAL,
-      'Set how many files will generate at the same time.',
+      'Determine how many files will generate at the same time.',
       10
     )
     ->addOption(
@@ -64,7 +64,6 @@ class GenerateCommand extends ConsoleCommand {
 
   protected function serve() {
 
-    // get options
     $this->options = [
       'input-url'    => $this->input->getArgument('input-url'),
       'output-url'   => $this->input->getOption('output-url'),

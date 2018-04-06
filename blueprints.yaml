@@ -24,11 +24,11 @@ form:
         generate.output_url:
           type: text
           label: Output URL
-          help: Set the URL of your static site. This determines the domain used in the absolute path of your links.
+          help: The URL of your static site. This determines the domain used in the absolute path of your links.
         generate.output_path:
           type: text
           label: Output Path
-          help: Set the directory to which your static site will be written (relative to Grav root).
+          help: The directory to which your static site will be written (relative to Grav root).
         generate.routes:
           type: text
           label: Routes
@@ -36,7 +36,7 @@ form:
         generate.simultaneous:
           type: int
           label: Simultaneous Limit
-          help: Set how many files will generate at the same time.
+          help: Determine how many files will generate at the same time.
           size: x-small
           validate:
             type: number

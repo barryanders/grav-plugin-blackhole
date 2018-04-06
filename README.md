@@ -8,8 +8,6 @@ The **Blackhole** Plugin is for [Grav CMS](http://github.com/getgrav/grav).
 
 Why Blackhole? Grav is a space term, so I think this plugin should follow suit. Time stops at the event horizon of a black hole, which is exactly what this plugin does to your website. It freezes it in a state. By Increasing **grav**ity to infinity you get a **static** black hole, or in this case you generate a **static** html copy of your **Grav** website.
 
-*Currently, Blackhole doesn't support taxonomy.*
-
 ## Installation
 
 ### GPM Installation
@@ -22,6 +20,8 @@ The simplest way to install this plugin is via the Grav Package Manager (GPM). F
 If you can't use GPM you can manually install this plugin. Download the zip version of this repository and unzip it under `/your/site/grav/user/plugins`, then rename the folder to `blackhole`.
 
 ## Usage
+
+Absolute URLs must be enabled in Grav System Configuration.
 
 ### Generate Command
 
@@ -36,14 +36,14 @@ bin/plugin blackhole generate http://localhost/grav
 #### Options
 
 - **Output URL** `--output-url` or `-d`
-  Set the URL of your static site. This determines the domain used in the absolute path of your links.
+  The URL of your static site. This determines the domain used in the absolute path of your links.
 
   ```bash
   --output-url https://website.com
   ```
 
 - **Output Path** `--output-path` or `-p`
-  Set the directory to which your static site will be written (relative to Grav root).
+  The directory to which your static site will be written (relative to Grav root).
 
   ```bash
   --output-path ../build
@@ -57,7 +57,7 @@ bin/plugin blackhole generate http://localhost/grav
   ```
 
 - **Simultaneous Limit** `--simultaneous` or `-s`
-  Set how many files will generate at the same time (default: 10).
+  Determine how many files will generate at the same time (default: 10).
 
   ```bash
   --simultaneous 10
@@ -65,6 +65,9 @@ bin/plugin blackhole generate http://localhost/grav
 
 - **Assets** `--assets` or `-a`
   Copy assets to the output path.
+
+- **Taxonomy** `--taxonomy` or `-t`
+  Process the taxonomy map.
 
 - **Force** `--force` or `-f`
   Overwrite previously generated files.

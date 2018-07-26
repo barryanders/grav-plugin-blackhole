@@ -1,3 +1,15 @@
+# v1.0.0-beta.1
+## 4/7/2018
+
+1. [](#new)
+    * Breaking change: absolute URLs must be enabled in Grav System Configuration
+    * Beautiful blueprints for the generate command in Admin Plugin
+    * Taxonomy option added ([#6](https://github.com/barrymode/grav-plugin-blackhole/issues/6))
+1. [](#improved)
+    * Major code restructuring
+1. [](#bugfix)
+    * `assets` was reportedly buggy and is now confirmed to be working ([#26](https://github.com/barrymode/grav-plugin-blackhole/issues/26) and [#27](https://github.com/barrymode/grav-plugin-blackhole/issues/27))
+
 # v0.12.0
 ## 3/29/2018
 

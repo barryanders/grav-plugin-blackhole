@@ -1,9 +1,7 @@
 <?php
 namespace Grav\Plugin;
 
-use Grav\Common\Grav;
 use Grav\Common\Plugin;
-use Grav\Common\Page\Page;
 
 class BlackholePlugin extends Plugin {
   public $content;

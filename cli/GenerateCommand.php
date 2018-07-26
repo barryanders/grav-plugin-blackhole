@@ -2,9 +2,6 @@
 namespace Grav\Plugin\Console;
 
 use Grav\Common\Grav;
-use Grav\Common\Themes;
-use Grav\Common\Page\Page;
-use Grav\Common\Twig\Twig;
 use Grav\Console\ConsoleCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;

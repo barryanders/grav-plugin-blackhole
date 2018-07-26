@@ -1,5 +1,5 @@
 name: Blackhole
-version: 0.12.0
+version: 1.0.0-beta.1
 description: Static site generator for Grav
 icon: circle
 author:
@@ -52,6 +52,17 @@ form:
             0: Disabled
           validate:
             type: bool
+        generate.taxonomy:
+          type: toggle
+          label: Taxonomy
+          help: Process the taxonomy map.
+          highlight: 1
+          default: 0
+          options:
+            1: Enabled
+            0: Disabled
+          validate:
+            type: bool
         generate.force:
           type: toggle
           label: Force
@@ -66,4 +77,4 @@ form:
         generate.button:
           type: text
           disabled: true
-          label: <script>$(document).ready(function() { $('input[name="data[generate][button]"]').replaceWith('<a class="button" href="?generate=true" style="float:right;"><i class="fa fa-fw fa-circle"></i> Generate</a>'); });</script>
+          label: <script>$(document).ready(function() { $('input[name="data[generate][button]"]').replaceWith('<a class="button" href="?blackhole=generate" style="float:right;"><i class="fa fa-fw fa-circle"></i> Generate</a>'); });</script>

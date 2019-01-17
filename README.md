@@ -1,7 +1,7 @@
 [![](https://img.shields.io/badge/Give-Starbucks%20%E2%98%85-00653b.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=barrymode%40protonmail%2ecom&lc=EN&item_name=BarryMode&item_number=Coffee%20for%20Barry%21&currency_code=USD)
 If Blackhole helped you, I would love a cup of coffee! ☕️Thank you for your support.
 
-<hr>
+- - -
 
 ![Blackhole Plugin](https://user-images.githubusercontent.com/5648875/33234047-8bd21c26-d1e5-11e7-80d3-aa98f22235c6.png)
 
@@ -79,6 +79,5 @@ bin/plugin blackhole generate http://localhost/grav
 
 ## Author
 
-| [![BarryMode](https://avatars3.githubusercontent.com/u/5648875?v=2&s=70)](https://twitter.com/barrymode "Follow @BarryMode on Twitter") |
+| [![BarryMode](https://avatars3.githubusercontent.com/u/5648875?v=2&s=100)](https://barrymode.com)<br>[BarryMode](https://barrymode.com) |
 |---|
-| [BarryMode](https://barrymode.github.io) |

@@ -189,6 +189,8 @@ class GenerateCommand extends ConsoleCommand {
       }
     }
 
+    /* done
+    ------- */
     $this->output->writeln(
       '<green>DONE</green> Blackhole processed ' .
       $pageCount . ' page' . ($pageCount !== 1 ? 's' : '') .

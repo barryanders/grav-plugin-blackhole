@@ -97,8 +97,9 @@ function assets($that, $event_horizon, $input_url, $data) {
       strpos($asset, 'data:') !== 0 && // exclude data URIs
       (strpos($asset, '/') === 0 || $input_url_parts['host'] === parse_url($asset)['host']) // continue if asset is local
     ) {
-      $asset_file_origin = GRAV_ROOT . substr($asset, strpos($asset, basename(GRAV_ROOT)) + strlen(basename(GRAV_ROOT)));
-      $asset_file_destination = $event_horizon . substr($asset, strpos($asset, basename(GRAV_ROOT)) + strlen(basename(GRAV_ROOT)));
+      $asset_path = ltrim(str_ireplace($input_url_parts['path'], '', str_ireplace($input_url, '', $asset)),'/');
+      $asset_file_origin = rtrim(GRAV_ROOT, '/').'/'.$asset_path;
+      $asset_file_destination = rtrim($event_horizon, '/').'/'.$asset_path;
       $asset_route = str_replace(basename($asset_file_destination), '', $asset_file_destination);
       // asset exists
       if (file_exists($asset_file_destination)) {

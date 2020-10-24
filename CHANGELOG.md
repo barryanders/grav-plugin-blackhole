@@ -1,3 +1,9 @@
+# v1.0.0-beta.2
+## 10/23/2020
+
+1. [](#bugfix)
+    * Fixes a problem with assets not being generated.
+
 # v1.0.0-beta.1
 ## 4/7/2018
 

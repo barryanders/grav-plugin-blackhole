@@ -97,16 +97,20 @@ function assets($that, $event_horizon, $input_url, $data) {
       strpos($asset, 'data:') !== 0 && // exclude data URIs
       (strpos($asset, '/') === 0 || $input_url_parts['host'] === parse_url($asset)['host']) // continue if asset is local
     ) {
-      $asset_path = ltrim(str_ireplace($input_url_parts['path'], '', str_ireplace($input_url, '', $asset)),'/');
-      $asset_file_origin = rtrim(GRAV_ROOT, '/').'/'.$asset_path;
-      $asset_file_destination = rtrim($event_horizon, '/').'/'.$asset_path;
+      $asset_file_origin = rtrim(GRAV_ROOT, '/').$asset;
+      $asset_file_destination = rtrim($event_horizon, '/').$asset;
       $asset_route = str_replace(basename($asset_file_destination), '', $asset_file_destination);
+      // echo 'asset_file_origin: ' . $asset_file_origin . "\r\n";
+      // echo 'asset_file_destination: ' . $asset_file_destination . "\r\n";
+      // echo 'asset_route: ' . $asset_route . "\r\n";
+      // echo 'asset: ' . $asset . "\r\n";
       // asset exists
       if (file_exists($asset_file_destination)) {
         switch (true) {
           // asset was changed: copy the new one
           case filemtime($asset_file_origin) > filemtime($asset_file_destination):
-            generate($asset_route, $asset_file_destination, file_get_contents($asset));
+            if (!is_dir($asset_route)) { mkdir($asset_route, 0755, true); }
+            copy($asset_file_origin, $asset_file_destination);
             break;
           // no asset changes: skip it
           default:
@@ -114,7 +118,8 @@ function assets($that, $event_horizon, $input_url, $data) {
         }
       // asset doesn't exist
       } else {
-        generate($asset_route, $asset_file_destination, file_get_contents($asset));
+        if (!is_dir($asset_route)) { mkdir($asset_route, 0755, true); }
+        copy($asset_file_origin, $asset_file_destination);
       }
     }
   }

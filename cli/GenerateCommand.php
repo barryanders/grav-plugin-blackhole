@@ -136,12 +136,12 @@ class GenerateCommand extends ConsoleCommand {
       $rollingCurl
         ->setCallback(function(\RollingCurl\Request $request, \RollingCurl\RollingCurl $rollingCurl) {
           $grav_page_data = $request->getResponseText();
-          // generate assets
-          if ($request->assets) assets($this->output, $request->event_horizon, $request->input_url, $grav_page_data);
           // swap links
-          $grav_page_data = portal($request->input_url, $request->output_url, $grav_page_data);
+          $grav_page_data_swapped = portal($request->input_url, $request->output_url, $grav_page_data);
           // generate pages
-          pages($this->output, $request->bh_route, $request->bh_file_path, $request->grav_file_path, $grav_page_data, $request->force);
+          pages($this->output, $request->bh_route, $request->bh_file_path, $request->grav_file_path, $grav_page_data_swapped, $request->force);
+          // generate assets
+          if ($request->assets) assets($this->output, $request->event_horizon, $request->input_url, $grav_page_data, $request->force);
           // clear list of completed requests and prune pending request queue to avoid memory growth
           $rollingCurl->clearCompleted();
           $rollingCurl->prunePendingRequestQueue();
@@ -174,9 +174,9 @@ class GenerateCommand extends ConsoleCommand {
           ->setCallback(function(\RollingCurl\Request $request, \RollingCurl\RollingCurl $rollingCurl) {
             $grav_page_data = $request->getResponseText();
             // swap links
-            $grav_page_data = portal($request->input_url, $request->output_url, $grav_page_data);
+            $grav_page_data_swapped = portal($request->input_url, $request->output_url, $grav_page_data);
             // generate taxonomy
-            taxonomies($this->output, $request->taxonomy_path, $request->taxonomy_path . '/index.html', $grav_page_data);
+            taxonomies($this->output, $request->taxonomy_path, $request->taxonomy_path . '/index.html', $grav_page_data_swapped);
             // clear list of completed requests and prune pending request queue to avoid memory growth
             $rollingCurl->clearCompleted();
             $rollingCurl->prunePendingRequestQueue();

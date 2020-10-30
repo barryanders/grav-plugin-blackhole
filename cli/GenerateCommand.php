@@ -154,9 +154,9 @@ class GenerateCommand extends ConsoleCommand {
     /* done
     ------- */
     $this->output->writeln(
-      '<green>DONE</green> Blackhole processed ' .
+      '<cyan>• Blackhole processed ' .
       $pageCount . ' page' . ($pageCount !== 1 ? 's' : '') .
-      ' in ' . (microtime(true) - $start) . ' seconds'
+      ' in ' . (microtime(true) - $start) . ' seconds</cyan>'
     );
   }
 }

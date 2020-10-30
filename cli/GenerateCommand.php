@@ -56,12 +56,6 @@ class GenerateCommand extends ConsoleCommand {
       'Copy assets to the output path.'
     )
     ->addOption(
-      'taxonomy',
-      't',
-      InputOption::VALUE_NONE,
-      'Process the taxonomy map.'
-    )
-    ->addOption(
       'force',
       'f',
       InputOption::VALUE_NONE,
@@ -82,8 +76,6 @@ class GenerateCommand extends ConsoleCommand {
       'routes'       => $this->input->getOption('routes'),
       'simultaneous' => $this->input->getOption('simultaneous'),
       'assets'       => $this->input->getOption('assets'),
-      'taxonomy'     => $this->input->getOption('taxonomy'),
-      'force'        => $this->input->getOption('force')
     ];
     $input_url    = $this->options['input-url'];
     $output_url   = $this->options['output-url'];
@@ -91,7 +83,6 @@ class GenerateCommand extends ConsoleCommand {
     $routes       = $this->options['routes'];
     $simultaneous = $this->options['simultaneous'];
     $assets       = $this->options['assets'];
-    $taxonomy     = $this->options['taxonomy'];
     $force        = $this->options['force'];
 
     // default output path
@@ -111,9 +102,6 @@ class GenerateCommand extends ConsoleCommand {
         $pages = array_intersect_key((array)$pages, $pages2);
       }
     }
-    // get taxonomy map
-    $taxonomies = $grav['taxonomy']->taxonomy();
-    $taxonomyCount = count((array)$taxonomies);
 
     /* generate pages
     ----------------- */
@@ -129,7 +117,6 @@ class GenerateCommand extends ConsoleCommand {
         $request->output_url = $output_url;
         $request->simultaneous = (int)$simultaneous < 1 ? 1 : (int)$simultaneous;
         $request->assets = $assets;
-        $request->taxonomy = $taxonomy;
         $request->force = $force;
         $rollingCurl->add($request);
       }
@@ -154,47 +141,11 @@ class GenerateCommand extends ConsoleCommand {
       die();
     }
 
-    /* generate taxonomies
-    ---------------------- */
-    if ($taxonomy) {
-      if ($taxonomyCount) {
-        $rollingCurl = new \RollingCurl\RollingCurl();
-        foreach ($taxonomies as $taxonomy_parent => $taxonomy_children) {
-          foreach ($taxonomy_children as $taxonomy_child => $pages_in_taxonomy) {
-            $taxonomy_url  = $input_url . '/' . $taxonomy_parent . ':' . $taxonomy_child;
-            $request = new \RollingCurl\Request($taxonomy_url);
-            $request->taxonomy_path = $event_horizon . '/' . $taxonomy_parent . '/' . $taxonomy_child;
-            $request->input_url = $input_url;
-            $request->output_url = $output_url;
-            $request->simultaneous = (int)$simultaneous < 1 ? 1 : (int)$simultaneous;
-            $rollingCurl->add($request);
-          }
-        }
-        $rollingCurl
-          ->setCallback(function(\RollingCurl\Request $request, \RollingCurl\RollingCurl $rollingCurl) {
-            $grav_page_data = $request->getResponseText();
-            // swap links
-            $grav_page_data_swapped = portal($request->input_url, $request->output_url, $grav_page_data);
-            // generate taxonomy
-            taxonomies($this->output, $request->taxonomy_path, $request->taxonomy_path . '/index.html', $grav_page_data_swapped);
-            // clear list of completed requests and prune pending request queue to avoid memory growth
-            $rollingCurl->clearCompleted();
-            $rollingCurl->prunePendingRequestQueue();
-          })
-          ->setSimultaneousLimit($request->simultaneous)
-          ->execute()
-        ;
-      } else {
-        $this->output->writeln('<red>ERROR</red> No taxonomies were found');
-      }
-    }
-
     /* done
     ------- */
     $this->output->writeln(
       '<green>DONE</green> Blackhole processed ' .
       $pageCount . ' page' . ($pageCount !== 1 ? 's' : '') .
-      ($taxonomy && $taxonomyCount ? ' and ' . $taxonomyCount . ' taxonom' . ($taxonomyCount !== 1 ? 'ies' : 'y') : '') .
       ' in ' . (microtime(true) - $start) . ' seconds'
     );
   }

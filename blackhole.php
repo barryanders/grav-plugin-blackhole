@@ -21,7 +21,6 @@ class BlackholePlugin extends Plugin {
       $routes       = $this->config->get('plugins.blackhole.generate.routes');
       $simultaneous = $this->config->get('plugins.blackhole.generate.simultaneous');
       $assets       = $this->config->get('plugins.blackhole.generate.assets');
-      $taxonomy     = $this->config->get('plugins.blackhole.generate.taxonomy');
       $force        = $this->config->get('plugins.blackhole.generate.force');
       $this->content =
         'bin/plugin blackhole generate ' . ROOT_URL .
@@ -30,7 +29,6 @@ class BlackholePlugin extends Plugin {
         ($routes       ? ' --routes '       . $routes       : '') .
         ($simultaneous ? ' --simultaneous ' . $simultaneous : '') .
         ($assets       ? ' --assets'                        : '') .
-        ($taxonomy     ? ' --taxonomy'                      : '') .
         ($force        ? ' --force'                         : '')
       ;
     }

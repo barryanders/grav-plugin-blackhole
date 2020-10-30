@@ -2,7 +2,7 @@
 ## 10/23/2020
 
 1. [](#bugfix)
-    * Fixes a problem with assets not being generated.
+    * Attempt to fix [#39](https://github.com/barrymode/grav-plugin-blackhole/issues/39)
 
 # v1.0.0-beta.1
 ## 4/7/2018

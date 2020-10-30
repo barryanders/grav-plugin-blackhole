@@ -66,9 +66,6 @@ bin/plugin blackhole generate http://localhost/grav
 - **Assets** `--assets` or `-a`
   Copy assets to the output path.
 
-- **Taxonomy** `--taxonomy` or `-t`
-  Process the taxonomy map.
-
 - **Force** `--force` or `-f`
   Overwrite previously generated files.
 

@@ -34,12 +34,6 @@ function portal($in, $out, $content) {
     ? str_ireplace($in, $out, $content)
     : $content
   );
-  // taxonomy:child -> taxonomy/child
-  $content = preg_replace_callback(
-    '~href=".*?"~',
-    function ($matches) { return preg_replace('~(.*?/.*?):(.*?)~', "$1/$2", $matches)[0]; },
-    $content
-  );
   return $content;
 }
 
@@ -131,10 +125,4 @@ function assets($that, $event_horizon, $input_url, $data, $force = false) {
       }
     }
   }
-}
-
-// generate taxonomies
-function taxonomies($that, $route, $path, $data) {
-  generate($route, $path, $data);
-  $that->writeln('<green>GENERATING</green> ➜ ' . realpath($route));
 }

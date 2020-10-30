@@ -102,7 +102,7 @@ function assets($that, $event_horizon, $input_url, $data, $force, $verbose) {
       if (file_exists($asset_file_destination)) {
         switch (true) {
           // asset was changed: copy the new one
-          case filemtime($asset_file_origin) > filemtime($asset_file_destination) || filesize($asset_file_origin) !== filesize($asset_file_destination):
+          case md5_file($asset_file_origin) !== md5_file($asset_file_destination):
             if (!is_dir($asset_route)) { mkdir($asset_route, 0755, true); }
             copy($asset_file_origin, $asset_file_destination);
             if ($verbose) $that->writeln('  <green>+ Asset ➜ ' . $asset_file_destination . '</green>');

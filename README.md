@@ -1,6 +1,6 @@
 ![Blackhole](https://user-images.githubusercontent.com/5648875/33234047-8bd21c26-d1e5-11e7-80d3-aa98f22235c6.png)
 
-The **Blackhole** Plugin is for [Grav CMS](http://github.com/getgrav/grav).
+The **⚫ Blackhole** Plugin is for [Grav CMS](http://github.com/getgrav/grav).
 
 ## Description
 

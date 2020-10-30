@@ -60,6 +60,12 @@ class GenerateCommand extends ConsoleCommand {
       'f',
       InputOption::VALUE_NONE,
       'Overwrite previously generated files.'
+    )
+    ->addOption(
+      'verbose-mode',
+      '',
+      InputOption::VALUE_NONE,
+      'Enable verbose mode.'
     );
   }
 
@@ -76,6 +82,8 @@ class GenerateCommand extends ConsoleCommand {
       'routes'       => $this->input->getOption('routes'),
       'simultaneous' => $this->input->getOption('simultaneous'),
       'assets'       => $this->input->getOption('assets'),
+      'force'        => $this->input->getOption('force'),
+      'verbose'      => $this->input->getOption('verbose-mode')
     ];
     $input_url    = $this->options['input-url'];
     $output_url   = $this->options['output-url'];
@@ -84,6 +92,7 @@ class GenerateCommand extends ConsoleCommand {
     $simultaneous = $this->options['simultaneous'];
     $assets       = $this->options['assets'];
     $force        = $this->options['force'];
+    $verbose      = $this->options['verbose'];
 
     // default output path
     $event_horizon = GRAV_ROOT . '/';
@@ -118,6 +127,7 @@ class GenerateCommand extends ConsoleCommand {
         $request->simultaneous = (int)$simultaneous < 1 ? 1 : (int)$simultaneous;
         $request->assets = $assets;
         $request->force = $force;
+        $request->verbose = $verbose;
         $rollingCurl->add($request);
       }
       $rollingCurl
@@ -126,9 +136,9 @@ class GenerateCommand extends ConsoleCommand {
           // swap links
           $grav_page_data_swapped = portal($request->input_url, $request->output_url, $grav_page_data);
           // generate pages
-          pages($this->output, $request->bh_route, $request->bh_file_path, $request->grav_file_path, $grav_page_data_swapped, $request->force);
+          pages($this->output, $request->bh_route, $request->bh_file_path, $request->grav_file_path, $grav_page_data_swapped, $request->force, $request->verbose);
           // generate assets
-          if ($request->assets) assets($this->output, $request->event_horizon, $request->input_url, $grav_page_data, $request->force);
+          if ($request->assets) assets($this->output, $request->event_horizon, $request->input_url, $grav_page_data, $request->force, $request->verbose);
           // clear list of completed requests and prune pending request queue to avoid memory growth
           $rollingCurl->clearCompleted();
           $rollingCurl->prunePendingRequestQueue();

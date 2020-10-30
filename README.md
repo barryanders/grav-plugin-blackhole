@@ -69,6 +69,9 @@ bin/plugin blackhole generate http://localhost/grav
 - **Force** `--force` or `-f`
   Overwrite previously generated files.
 
+- **Verbose Mode** `--verbose-mode`
+  Enable verbose mode.
+
 ## Author
 
 <table>

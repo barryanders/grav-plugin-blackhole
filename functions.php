@@ -57,30 +57,30 @@ function generate($route, $path, $data) {
 }
 
 // generate pages
-function pages($that, $route, $path, $path_origin, $data, $force = false) {
+function pages($that, $route, $path, $path_origin, $data, $force, $verbose) {
   // page exists
   if (file_exists($path) && !$force) {
     switch (true) {
       // page was changed: copy the new one
       case filemtime($path_origin) > filemtime($path):
         generate($route, $path, $data);
-        $that->writeln('<green>+ Page ➜ ' . $path . '</green>');
+        if ($verbose) $that->writeln('<green>+ Page ➜ ' . $path . '</green>');
         break;
       // no page changes: skip it
       default:
-        $that->writeln('<cyan>• Page ➜ ' . $path . '</cyan>');
+        if ($verbose) $that->writeln('<cyan>• Page ➜ ' . $path . '</cyan>');
         break;
     }
   // page doesn't exist or force option is enabled
   } else {
     // copy the page
     generate($route, $path, $data);
-    $that->writeln('<green>+ Page ➜ ' . $path . '</green>');
+    if ($verbose) $that->writeln('<green>+ Page ➜ ' . $path . '</green>');
   }
 }
 
 // generate assets
-function assets($that, $event_horizon, $input_url, $data, $force = false) {
+function assets($that, $event_horizon, $input_url, $data, $force, $verbose) {
   $asset_links = array();
   $asset_links[] = tidal_disruption($data, 'link', 'href');
   $asset_links[] = tidal_disruption($data, 'script', 'src');
@@ -105,16 +105,16 @@ function assets($that, $event_horizon, $input_url, $data, $force = false) {
           case filemtime($asset_file_origin) > filemtime($asset_file_destination) || filesize($asset_file_origin) !== filesize($asset_file_destination):
             if (!is_dir($asset_route)) { mkdir($asset_route, 0755, true); }
             copy($asset_file_origin, $asset_file_destination);
-            $that->writeln('  <green>+ Asset ➜ ' . $asset_file_destination . '</green>');
+            if ($verbose) $that->writeln('  <green>+ Asset ➜ ' . $asset_file_destination . '</green>');
             break;
           // if force, then copy it anyway
           case $force:
             copy($asset_file_origin, $asset_file_destination);
-            $that->writeln('  <green>+ Asset ➜ ' . $asset_file_destination . '</green>');
+            if ($verbose) $that->writeln('  <green>+ Asset ➜ ' . $asset_file_destination . '</green>');
             break;
           // no asset changes and not forced: skip it
           default:
-            $that->writeln('  <cyan>• Asset ➜ ' . $asset_file_destination . '</cyan>');
+            if ($verbose) $that->writeln('  <cyan>• Asset ➜ ' . $asset_file_destination . '</cyan>');
             break;
         }
       // asset doesn't exist

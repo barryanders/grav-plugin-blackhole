@@ -1,3 +1,14 @@
+# v1.0.0-beta.3
+## 10/30/2020
+
+1. [](#new)
+    * Verbose Mode
+1. [](#improved)
+    * Asset changes detected by MD5 hash
+    * Removed Taxonomy
+1. [](#bugfix)
+    * Fix [#39](https://github.com/barrymode/grav-plugin-blackhole/issues/39)
+
 # v1.0.0-beta.2
 ## 10/23/2020
 

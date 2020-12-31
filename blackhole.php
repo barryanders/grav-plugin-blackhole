@@ -1,43 +1,57 @@
 <?php
+
 namespace Grav\Plugin;
 
 use Grav\Common\Plugin;
 
-class BlackholePlugin extends Plugin {
-  public $content;
-  public static function getSubscribedEvents() {
-    return [
-      'onPageInitialized' => ['onPageInitialized', 0],
-      'onOutputRendered' => ['onOutputRendered', 0]
-    ];
-  }
+class BlackholePlugin extends Plugin
+{
+	public $content;
 
-  public function onPageInitialized() {
-    if (!defined('ROOT_URL')) define('ROOT_URL', $this->grav['uri']->rootUrl(true));
+	public static function getSubscribedEvents()
+	{
+		return [
+		    'onPageInitialized' => ['onPageInitialized', 0],
+		    'onOutputRendered'  => ['onOutputRendered', 0],
+		];
+	}
 
-    if (!empty($_GET['blackhole']) && $_GET['blackhole'] === 'generate') {
-      $output_url   = $this->config->get('plugins.blackhole.generate.output_url');
-      $output_path  = $this->config->get('plugins.blackhole.generate.output_path');
-      $routes       = $this->config->get('plugins.blackhole.generate.routes');
-      $simultaneous = $this->config->get('plugins.blackhole.generate.simultaneous');
-      $assets       = $this->config->get('plugins.blackhole.generate.assets');
-      $force        = $this->config->get('plugins.blackhole.generate.force');
-      $this->content =
-        'bin/plugin blackhole generate ' . ROOT_URL .
-        ($output_url   ? ' --output-url '   . $output_url   : '') .
-        ($output_path  ? ' --output-path '  . $output_path  : '') .
-        ($routes       ? ' --routes '       . $routes       : '') .
-        ($simultaneous ? ' --simultaneous ' . $simultaneous : '') .
-        ($assets       ? ' --assets'                        : '') .
-        ($force        ? ' --force'                         : '')
-      ;
-    }
-  }
+	public function onPageInitialized()
+	{
+		if (!defined('ROOT_URL'))
+		{
+			define('ROOT_URL', $this->grav['uri']->rootUrl(true));
+		}
 
-  public function onOutputRendered() {
-    // action for generate button
-    if (!empty($_GET['blackhole']) && $_GET['blackhole'] === 'generate') {
-      shell_exec($this->content);
-    }
-  }
+		if (!empty($_GET['blackhole']) && $_GET['blackhole'] === 'generate')
+		{
+			$output_url    = $this->config->get('plugins.blackhole.generate.output_url');
+			$output_path   = $this->config->get('plugins.blackhole.generate.output_path');
+			$routes        = $this->config->get('plugins.blackhole.generate.routes');
+			$simultaneous  = $this->config->get('plugins.blackhole.generate.simultaneous');
+			$assets        = $this->config->get('plugins.blackhole.generate.assets');
+			$force         = $this->config->get('plugins.blackhole.generate.force');
+
+			$stripPort     = (int) $this->config->get('plugins.blackhole.generate.strip_port');
+
+			$this->content =
+			    'bin/plugin blackhole generate ' . ROOT_URL .
+			    ($output_url ? ' --output-url ' . $output_url : '') .
+			    ($output_path ? ' --output-path ' . $output_path : '') .
+			    ($routes ? ' --routes ' . $routes : '') .
+			    ($simultaneous ? ' --simultaneous ' . $simultaneous : '') .
+			    ($assets ? ' --assets' : '') .
+			    ($force ? ' --force' : '') .
+			    ($stripPort ? ' --strip-port ' . $stripPort : '');
+		}
+	}
+
+	public function onOutputRendered()
+	{
+		// action for generate button
+		if (!empty($_GET['blackhole']) && $_GET['blackhole'] === 'generate')
+		{
+			shell_exec($this->content);
+		}
+	}
 }

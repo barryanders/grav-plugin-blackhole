@@ -71,6 +71,10 @@ form:
             0: Disabled
           validate:
             type: bool
+        generate.strip_port:
+          type: text
+          label: Strip Portnumber
+          help: While using the generator from docker with something like http://127.0.0.1:8080/ fill in the portnumber 8080 if the assets was not parsed.
         generate.button:
           type: text
           disabled: true

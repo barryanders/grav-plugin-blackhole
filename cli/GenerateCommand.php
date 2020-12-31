@@ -78,6 +78,11 @@ class GenerateCommand extends ConsoleCommand
 			'',
 			InputOption::VALUE_NONE,
 			'Enable verbose mode.'
+		    )->addOption(
+			'strip-port',
+			'',
+			InputOption::VALUE_OPTIONAL,
+			'strips the portNumber if exists.'
 		    );
 	}
 
@@ -97,6 +102,7 @@ class GenerateCommand extends ConsoleCommand
 		    'assets'       => $this->input->getOption('assets'),
 		    'force'        => $this->input->getOption('force'),
 		    'verbose'      => $this->input->getOption('verbose-mode'),
+		    'strip-port'   => $this->input->getOption('strip-port'),
 		];
 		$input_url     = $this->options['input-url'];
 		$output_url    = $this->options['output-url'];
@@ -107,6 +113,8 @@ class GenerateCommand extends ConsoleCommand
 		$force         = $this->options['force'];
 		$verbose       = $this->options['verbose'];
 
+		// calling from a docker-image  backend http://127.0.0.1:8080/ can optionally strip the port
+		$stripPort = (int) $this->options['strip-port'];
 		// default output path
 		$event_horizon = GRAV_ROOT . '/';
 		// set user defined output path
@@ -115,12 +123,11 @@ class GenerateCommand extends ConsoleCommand
 			$event_horizon .= $output_path;
 		}
 		// make output path
-		if (!is_dir(dirname($event_horizon)))
+		if (!is_dir(dirname($event_horizon)) && !mkdir($concurrentDirectory = dirname($event_horizon),
+		                                               0755,
+		                                               true) && !is_dir($concurrentDirectory))
 		{
-			if (!mkdir($concurrentDirectory = dirname($event_horizon), 0755, true) && !is_dir($concurrentDirectory))
-			{
-				throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
-			}
+			throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
 		}
 		// get page routes
 		$pages     = $grav['pages']->routes();
@@ -138,7 +145,11 @@ class GenerateCommand extends ConsoleCommand
 				$pages               = array_intersect_key((array) $pages, $pages2);
 			}
 		}
+		if ($stripPort)
+		{
 
+			$input_url = str_replace(':' . $stripPort, '', $input_url);
+		}
 		/* generate pages
 		----------------- */
 		if ($pageCount)

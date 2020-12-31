@@ -4,6 +4,8 @@
 1.  [](#improved)
     * (Fileosoph) code reformatted
     * (Fileosoph) verbose mode more detailed
+1. [](#bugfix)
+    * Fix [#1](https://github.com/fileosoph/grav-plugin-blackhole/issues/1)
     
 # v1.0.0-beta.3
 ## 10/30/2020

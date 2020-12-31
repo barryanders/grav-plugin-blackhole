@@ -70,6 +70,14 @@ bin/plugin blackhole generate http://localhost/grav
 - **Verbose Mode** `--verbose-mode`
   Enable verbose mode.
 
+
+- **Strip Port** `--strip-port`
+  option, integer
+  If use in combination with a Docker and port-mapping and assets will not be copied to output, try to strip the port 
+   ```bash
+  --strip-port 8080
+  ```
+  
 ## Author
 
 <table>

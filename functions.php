@@ -95,7 +95,7 @@ function pages($that, $route, $path, $path_origin, $data, $force, $verbose)
 		elseif ($verbose)
 		{
 			// page doesn't exist or force option is enabled
-			$that->writeln('<cyan>• Page ➜ ' . $path . ' [already exists an not updated]</cyan>');
+			$that->writeln('<cyan>• Page ➜ ' . $path . ' [already exists and not updated]</cyan>');
 		}
 	}
 	else

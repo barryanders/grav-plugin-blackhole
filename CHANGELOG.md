@@ -1,3 +1,10 @@
+# v1.0.0-beta.4
+## 12/31/2020
+
+1.  [](#improved)
+    * (Fileosoph) code reformatted
+    * (Fileosoph) verbose mode more detailed
+    
 # v1.0.0-beta.3
 ## 10/30/2020
 

@@ -1,3 +1,9 @@
+# v1.0.0
+## 3/4/2021
+
+1. [](#new)
+    * No reported issues. No changes from beta 3. Done.
+
 # v1.0.0-beta.3
 ## 10/30/2020
 

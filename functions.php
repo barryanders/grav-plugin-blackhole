@@ -91,8 +91,9 @@ function assets($that, $event_horizon, $input_url, $data, $force, $verbose) {
       strpos($asset, 'data:') !== 0 && // exclude data URIs
       (strpos($asset, '/') === 0 || $input_url_parts['host'] === parse_url($asset)['host']) // continue if asset is local
     ) {
-      $asset_file_origin = rtrim(GRAV_ROOT, '/').$asset;
-      $asset_file_destination = rtrim($event_horizon, '/').$asset;
+      $asset_path = parse_url($asset)['path'];
+      $asset_file_origin = rtrim(GRAV_ROOT, '/').$asset_path;
+      $asset_file_destination = rtrim($event_horizon, '/').$asset_path;
       $asset_route = str_replace(basename($asset_file_destination), '', $asset_file_destination);
       // echo 'asset_file_origin: ' . $asset_file_origin . "\r\n";
       // echo 'asset_file_destination: ' . $asset_file_destination . "\r\n";

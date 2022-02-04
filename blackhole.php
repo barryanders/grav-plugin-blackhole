@@ -18,6 +18,7 @@ class BlackholePlugin extends Plugin {
     if (!empty($_GET['blackhole']) && $_GET['blackhole'] === 'generate') {
       $output_url   = $this->config->get('plugins.blackhole.generate.output_url');
       $output_path  = $this->config->get('plugins.blackhole.generate.output_path');
+      $use_sitemap  = $this->config->get('plugins.blackhole.generate.use_sitemap');
       $routes       = $this->config->get('plugins.blackhole.generate.routes');
       $simultaneous = $this->config->get('plugins.blackhole.generate.simultaneous');
       $assets       = $this->config->get('plugins.blackhole.generate.assets');
@@ -27,6 +28,7 @@ class BlackholePlugin extends Plugin {
         ($output_url   ? ' --output-url '   . $output_url   : '') .
         ($output_path  ? ' --output-path '  . $output_path  : '') .
         ($routes       ? ' --routes '       . $routes       : '') .
+        ($use_sitemap  ? ' --use-sitemap '  . $use_sitemap  : '') .
         ($simultaneous ? ' --simultaneous ' . $simultaneous : '') .
         ($assets       ? ' --assets'                        : '') .
         ($force        ? ' --force'                         : '')

@@ -43,6 +43,12 @@ class GenerateCommand extends ConsoleCommand {
       'Limit generation to a select list of page routes.'
     )
     ->addOption(
+      'use-sitemap',
+      'm',
+      InputOption::VALUE_OPTIONAL,
+      'Use a xml sitemap generated with the grav sitemap plugin.'
+    )
+    ->addOption(
       'simultaneous',
       's',
       InputOption::VALUE_OPTIONAL,
@@ -80,6 +86,7 @@ class GenerateCommand extends ConsoleCommand {
       'output-url'   => $this->input->getOption('output-url'),
       'output-path'  => $this->input->getOption('output-path'),
       'routes'       => $this->input->getOption('routes'),
+      'use-sitemap'  => $this->input->getOption('use-sitemap'),
       'simultaneous' => $this->input->getOption('simultaneous'),
       'assets'       => $this->input->getOption('assets'),
       'force'        => $this->input->getOption('force'),
@@ -89,6 +96,7 @@ class GenerateCommand extends ConsoleCommand {
     $output_url   = $this->options['output-url'];
     $output_path  = $this->options['output-path'];
     $routes       = $this->options['routes'];
+    $use_sitemap  = $this->options['use-sitemap'];
     $simultaneous = $this->options['simultaneous'];
     $assets       = $this->options['assets'];
     $force        = $this->options['force'];
@@ -101,27 +109,78 @@ class GenerateCommand extends ConsoleCommand {
     // make output path
     if (!is_dir(dirname($event_horizon))) mkdir(dirname($event_horizon), 0755, true);
     // get page routes
-    $pages = $grav['pages']->routes();
-    $pageCount = count((array)$pages);
-    foreach ($pages as $path => $dir) {
-      if (strpos($path, '/_') !== false) {
-        unset($pages[$path]);
-      } elseif (!empty($routes)) {
-        $pages2 = array(); $pages2['/'.$path] = '';
-        $pages = array_intersect_key((array)$pages, $pages2);
+
+    if ($use_sitemap) {
+      $sitemap_url = $input_url . '/' . trim($use_sitemap, '/');
+      if ($verbose) $this->output->writeln('<green>Reading Sitemap</green> ' . $sitemap_url);
+      if (!($sitemap = pull($sitemap_url))) {
+        $this->output->writeln('<red>ERROR</red> Sitemap not found.');
+        die();
+      }
+      if (!($sitemap = simplexml_load_string($sitemap))) {
+        $this->output->writeln('<red>ERROR</red> Sitemap not valid xml');
+        die();
+      }
+      $pages = [];
+      foreach ($sitemap->url as $url) {
+        $src_url = (string) $url->loc;
+        $len = strlen($input_url);
+        if (substr($src_url, 0, $len) !== $input_url) {
+          $this->output->writeln('<red>ERROR</red> url on external site: ' . $url->loc);
+          continue;
+        }
+
+        $dst_route = substr($src_url, $len);
+        $dst_path = $dst_route;
+        $info = (object) pathinfo($dst_route);
+        if ($info->extension) {
+          $dst_route = $info->dirname;
+        }
+        else {
+          $dst_path .= '/index.html';
+          if ($info->dirname == '/') $src_url .= '/home.html';
+        }
+        $pages[] = [
+          'src_url' => $src_url,
+          'src_file_path' => '', //used for checking timestamp,
+          'dst_route' => $event_horizon . $dst_route,
+          'dst_file_path' => $event_horizon . $dst_path
+        ];
+      }
+    }
+    else {
+      $grav_routes = $grav['pages']->routes();
+      foreach ($grav_routes as $path => $dir) {
+        if (strpos($path, '/_') !== false) {
+          unset($grav_routes[$path]);
+        } elseif (!empty($routes)) {
+          $pages2 = array(); $pages2['/'.$path] = '';
+          $pages = array_intersect_key((array)$grav_routes, $pages2);
+        }
+      }
+      $pages = [];
+      foreach ($grav_routes as $grav_slug => $grav_file_path) {
+        $dst_route = preg_replace('/\/\/+/', '/', $event_horizon . $grav_slug);
+        $pages[] = [
+          'src_url' => $input_url . $grav_slug,
+          'src_file_path' => $grav_file_path, //used for checking timestamp,
+          'dst_route' => $dst_route,
+          'dst_file_path' => preg_replace('/\/\/+/', '/', $dst_route . '/index.html')
+        ];
       }
     }
 
+    $pageCount = count((array)$pages);
     /* generate pages
     ----------------- */
     if ($pageCount) {
       $rollingCurl = new \RollingCurl\RollingCurl();
-      foreach ($pages as $grav_slug => $grav_file_path) {
-        $request = new \RollingCurl\Request($input_url . $grav_slug);
+      foreach ($pages as $page) {
+        $request = new \RollingCurl\Request($page['src_url']);
         $request->event_horizon = $event_horizon;
-        $request->grav_file_path = $grav_file_path;
-        $request->bh_route = preg_replace('/\/\/+/', '/', $event_horizon . $grav_slug);
-        $request->bh_file_path = preg_replace('/\/\/+/', '/', $request->bh_route . '/index.html');
+        $request->grav_file_path = $page['src_file_path'];
+        $request->bh_route = $page['dst_route'];
+        $request->bh_file_path = $page['dst_file_path'];
         $request->input_url = $input_url;
         $request->output_url = $output_url;
         $request->simultaneous = (int)$simultaneous < 1 ? 1 : (int)$simultaneous;

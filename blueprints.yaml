@@ -3,11 +3,11 @@ version: 1.0.1
 description: Static site generator for Grav
 icon: circle
 author:
-  name: BarryMode
-homepage: https://github.com/barrymode/grav-plugin-blackhole
+  name: Barry Anders
+homepage: https://github.com/barryanders/grav-plugin-blackhole
 keywords: grav, plugin, static, site, generator
-bugs: https://github.com/barrymode/grav-plugin-blackhole/issues
-docs: https://github.com/barrymode/grav-plugin-blackhole/blob/master/README.md
+bugs: https://github.com/barryanders/grav-plugin-blackhole/issues
+docs: https://github.com/barryanders/grav-plugin-blackhole/blob/master/README.md
 license: MIT
 
 form:

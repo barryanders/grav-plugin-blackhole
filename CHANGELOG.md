@@ -19,13 +19,13 @@
     * Asset changes detected by MD5 hash
     * Removed Taxonomy
 1. [](#bugfix)
-    * Fix [#39](https://github.com/barrymode/grav-plugin-blackhole/issues/39)
+    * Fix [#39](https://github.com/barryanders/grav-plugin-blackhole/issues/39)
 
 # v1.0.0-beta.2
 ## 10/23/2020
 
 1. [](#bugfix)
-    * Attempt to fix [#39](https://github.com/barrymode/grav-plugin-blackhole/issues/39)
+    * Attempt to fix [#39](https://github.com/barryanders/grav-plugin-blackhole/issues/39)
 
 # v1.0.0-beta.1
 ## 4/7/2018
@@ -33,17 +33,17 @@
 1. [](#new)
     * Breaking change: absolute URLs must be enabled in Grav System Configuration
     * Beautiful blueprints for the generate command in Admin Plugin
-    * Taxonomy option added ([#6](https://github.com/barrymode/grav-plugin-blackhole/issues/6))
+    * Taxonomy option added ([#6](https://github.com/barryanders/grav-plugin-blackhole/issues/6))
 1. [](#improved)
     * Major code restructuring
 1. [](#bugfix)
-    * `assets` was reportedly buggy and is now confirmed to be working ([#26](https://github.com/barrymode/grav-plugin-blackhole/issues/26) and [#27](https://github.com/barrymode/grav-plugin-blackhole/issues/27))
+    * `assets` was reportedly buggy and is now confirmed to be working ([#26](https://github.com/barryanders/grav-plugin-blackhole/issues/26) and [#27](https://github.com/barryanders/grav-plugin-blackhole/issues/27))
 
 # v0.12.0
 ## 3/29/2018
 
 1. [](#new)
-    * Generate button added to Grav admin ([#5](https://github.com/barrymode/grav-plugin-blackhole/issues/5))
+    * Generate button added to Grav admin ([#5](https://github.com/barryanders/grav-plugin-blackhole/issues/5))
 1. [](#improved)
     * Assets no longer logs errors when processing data URIs
     * Assets ignores canonical links
@@ -71,7 +71,7 @@
 ## 3/11/2018
 
 1. [](#bugfix)
-    * Fixed bug in RollingCurl where `prunePendingRequestQueue` was limiting the generation count ([#24](https://github.com/barrymode/grav-plugin-blackhole/issues/24))
+    * Fixed bug in RollingCurl where `prunePendingRequestQueue` was limiting the generation count ([#24](https://github.com/barryanders/grav-plugin-blackhole/issues/24))
     * Fixed bug with the simultaneous limit where manual entry was returning an error
 
 # v0.9.2
@@ -105,9 +105,9 @@
 ## 8/18/2017
 
 1. [](#improved)
-    * Remove modular pages from routes ([#18](https://github.com/barrymode/grav-plugin-blackhole/pull/18))
+    * Remove modular pages from routes ([#18](https://github.com/barryanders/grav-plugin-blackhole/pull/18))
 2. [](#bugfix)
-    * Fixed output-url ([#19](https://github.com/barrymode/grav-plugin-blackhole/pull/19))
+    * Fixed output-url ([#19](https://github.com/barryanders/grav-plugin-blackhole/pull/19))
 
 # v0.8.2
 ## 8/1/2017
@@ -121,7 +121,7 @@
 1. [](#new)
     * Added timer
 2. [](#bugfix)
-    * Fixed memory growth problem ([#16](https://github.com/barrymode/grav-plugin-blackhole/issues/16))
+    * Fixed memory growth problem ([#16](https://github.com/barryanders/grav-plugin-blackhole/issues/16))
 
 # v0.8.0
 ## 7/30/2017
@@ -141,25 +141,25 @@
 1. [](#improved)
     * Minor optimizations of the file generation method
 2. [](#bugfix)
-    * Fixed mkdir errors ([#12](https://github.com/barrymode/grav-plugin-blackhole/issues/12))
+    * Fixed mkdir errors ([#12](https://github.com/barryanders/grav-plugin-blackhole/issues/12))
 
 # v0.7.0
 ## 6/18/2017
 
 1. [](#new)
-    * Feature: only render pages that have changed/been modified ([#12](https://github.com/barrymode/grav-plugin-blackhole/issues/12))
+    * Feature: only render pages that have changed/been modified ([#12](https://github.com/barryanders/grav-plugin-blackhole/issues/12))
 
 # v0.6.0
 ## 6/18/2017
 
 1. [](#new)
-    * Portal function solves ([#10](https://github.com/barrymode/grav-plugin-blackhole/issues/10))
+    * Portal function solves ([#10](https://github.com/barryanders/grav-plugin-blackhole/issues/10))
 
 # v0.5.1
 ## 6/1/2017
 
 1. [](#bugfix)
-    * Fixed ([#7](https://github.com/barrymode/grav-plugin-blackhole/issues/7) and [#9](https://github.com/barrymode/grav-plugin-blackhole/issues/9))
+    * Fixed ([#7](https://github.com/barryanders/grav-plugin-blackhole/issues/7) and [#9](https://github.com/barryanders/grav-plugin-blackhole/issues/9))
 
 # v0.5.0
 ## 4/9/2017
@@ -174,7 +174,7 @@
     * Added error messages
     * Changed version history
 2. [](#bugfix)
-    * Website must be defined ([#4](https://github.com/barrymode/grav-plugin-blackhole/issues/4))
+    * Website must be defined ([#4](https://github.com/barryanders/grav-plugin-blackhole/issues/4))
 
 # v0.4.0
 ## 4/6/2017
@@ -195,14 +195,14 @@
     * Removed hacky JS shit
     * Added `g` as an alt short form of `generate`
 2. [](#bugfix)
-    * Fixed link error to pages query ([#3](https://github.com/barrymode/grav-plugin-blackhole/issues/3))
+    * Fixed link error to pages query ([#3](https://github.com/barryanders/grav-plugin-blackhole/issues/3))
 
 # v0.2.3
 ## 11/12/2016
 
 1. [](#bugfix)
-    * Fixed directory path issue for unix style ([#1](https://github.com/barrymode/grav-plugin-blackhole/issues/1))
-    * Fixed every page being generated as the home page ([#2](https://github.com/barrymode/grav-plugin-blackhole/issues/2))
+    * Fixed directory path issue for unix style ([#1](https://github.com/barryanders/grav-plugin-blackhole/issues/1))
+    * Fixed every page being generated as the home page ([#2](https://github.com/barryanders/grav-plugin-blackhole/issues/2))
 
 # v0.2.2
 ##  10/07/2016

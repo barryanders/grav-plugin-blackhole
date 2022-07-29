@@ -2,8 +2,6 @@
 
 The **⚫ Blackhole** Plugin is for [Grav CMS](http://github.com/getgrav/grav).
 
-If this plugin helps you, please [send a thank you in the form of a donation.](https://barrymode.com/give/)
-
 ## Description
 
 Why Blackhole? Grav is a space term, so I think this plugin should follow suit. Time stops at the event horizon of a black hole, which is exactly what this plugin does to your website. It freezes it in a state. By Increasing **grav**ity to infinity you get a **static** black hole, or in this case you generate a **static** html copy of your **Grav** website.
@@ -78,17 +76,17 @@ bin/plugin blackhole generate http://localhost/grav
   <thead>
     <tr>
       <th valign="middle" align="center">
-        <a href="https://barrymode.com"><img alt="BarryMode" src="https://avatars.githubusercontent.com/u/91902180?v=4&s=200" width="100" height="100"></a>
+        <a href="https://barryanders.github.io"><img alt="Barry Anders" src="https://avatars.githubusercontent.com/u/91902180?v=4&s=200" width="100" height="100"></a>
       </th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td valign="middle" align="center">
-        <a href="https://barrymode.com"><strong>BarryMode</strong></a><br>
-        <a href="https://www.youtube.com/barrymode"><img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/youtube.svg" width="16" height="16"></a> <a href="https://github.com/barrymode"><img src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/github.svg" width="16" height="16"></a>
+        <a href="https://barryanders.github.io"><strong>Barry Anders</strong></a>
       </td>
     </tr>
   </tbody>
 </table>
+
 

@@ -1,3 +1,9 @@
+# v1.0.2
+## 7/29/2022
+
+1. [](#improved)
+    * Updating author info.
+
 # v1.0.1
 ## 1/19/2022
 

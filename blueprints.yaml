@@ -7,7 +7,7 @@ author:
 homepage: https://github.com/barryanders/grav-plugin-blackhole
 keywords: grav, plugin, static, site, generator
 bugs: https://github.com/barryanders/grav-plugin-blackhole/issues
-docs: https://github.com/barryanders/grav-plugin-blackhole/blob/master/README.md
+docs: https://github.com/barryanders/grav-plugin-blackhole/blob/main/README.md
 license: MIT
 
 form:

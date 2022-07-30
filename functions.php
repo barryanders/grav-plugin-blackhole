@@ -85,6 +85,7 @@ function assets($that, $event_horizon, $input_url, $data, $force, $verbose) {
   $asset_links[] = tidal_disruption($data, 'link', 'href');
   $asset_links[] = tidal_disruption($data, 'script', 'src');
   $asset_links[] = tidal_disruption($data, 'img', 'src');
+  $asset_links[] = tidal_disruption($data, 'img', 'data-src'); //also fetch lazy loaded images
   $input_url_parts = parse_url($input_url);
   foreach (array_flatten($asset_links) as $asset) {
     if (

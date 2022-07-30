@@ -1,3 +1,9 @@
+# v1.1.0
+## 7/30/2022
+
+1. [](#new)
+    * Added sitemap option [#47](https://github.com/barryanders/grav-plugin-blackhole/pull/47)
+
 # v1.0.2
 ## 7/29/2022
 

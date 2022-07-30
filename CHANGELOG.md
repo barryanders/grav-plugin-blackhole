@@ -8,7 +8,7 @@
 ## 7/29/2022
 
 1. [](#improved)
-    * Updating author info.
+    * Updated author info.
 
 # v1.0.1
 ## 1/19/2022
@@ -20,7 +20,7 @@
 ## 3/4/2021
 
 1. [](#new)
-    * No reported issues. No changes from beta 3. Done.
+    * No reported issues. No changes from beta 3. Done?
 
 # v1.0.0-beta.3
 ## 10/30/2020

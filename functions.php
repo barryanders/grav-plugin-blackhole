@@ -44,9 +44,19 @@ function tidal_disruption($data, $elements, $attribute) {
   $links = array();
   foreach($doc->getElementsByTagName($elements) as $element) {
     if ($element->getAttribute('rel') !== 'canonical') {
-      $links[] = $element->getAttribute($attribute);
+      if ($attribute == 'srcset') {
+        foreach (explode(' ', $element->getAttribute($attribute)) as $src) {
+          // only use the URL parts of srcset
+          if (!str_ends_with($src, ',') || !str_ends_with($src, 'w')) {
+            $links[] = $src;
+          }
+        }
+      } else {
+        $links[] = $element->getAttribute($attribute);
+      }
     }
   }
+
   return $links;
 }
 
@@ -54,6 +64,35 @@ function tidal_disruption($data, $elements, $attribute) {
 function generate($route, $path, $data) {
   if (!is_dir($route)) { mkdir($route, 0755, true); }
   file_put_contents($path, $data);
+}
+
+function generateCssAssets($href, $event_horizon) {
+  $asset_path = parse_url($href)['path'];
+  $css_file_origin = rtrim(GRAV_ROOT, '/').$asset_path;
+  $css_file_destination = rtrim($event_horizon, '/').$asset_path;
+  $links = [];
+
+  if (!file_exists($css_file_destination) || md5_file($css_file_origin) !== md5_file($css_file_destination)) {
+    $css = pull($href);
+    $base_url = dirname($href);
+    $matches = [];
+
+    preg_match_all('/url\(\"?\'?(.*?)\'?\"?\)/', $css, $matches);
+
+    foreach($matches[1] as $match) {
+        // exclude data URIs
+        if (!str_contains($match, 'data:')) {
+          // prepend the stylesheet dir URL if the URL contains a relative path
+          if (str_starts_with($match, '..') || str_starts_with($match, './')) {
+            $links[] = $base_url . '/' . $match;
+          } else {
+            $links[] = $match;
+          }
+        }
+    }
+  }
+
+  return $links;
 }
 
 // generate pages
@@ -86,6 +125,16 @@ function assets($that, $event_horizon, $input_url, $data, $force, $verbose) {
   $asset_links[] = tidal_disruption($data, 'script', 'src');
   $asset_links[] = tidal_disruption($data, 'img', 'src');
   $asset_links[] = tidal_disruption($data, 'img', 'data-src'); //also fetch lazy loaded images
+  $asset_links[] = tidal_disruption($data, 'img', 'srcset'); //also fetch images specified in srcset
+  $asset_links[] = tidal_disruption($data, 'object', 'data'); //also fetch references from objects
+
+  foreach (array_flatten($asset_links) as $asset) {
+      if (str_ends_with($asset, '.css')) {
+        $asset_links[] = generateCssAssets($asset, $event_horizon);
+      }
+    }
+
+
   $input_url_parts = parse_url($input_url);
   foreach (array_flatten($asset_links) as $asset) {
     if (
